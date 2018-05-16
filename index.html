@@ -5,17 +5,70 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Group Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
     
+    <!-- jQuery Link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Moment Link -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- CSS Page -->
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
+    <!-- Google Font Links -->
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+
+    <style>
+        body{
+            background-image: url("assets/images/SatelliteEarth.jpg");
+            background-repeat: no-repeat;
+        }
+        .font-shadowLight{font-family: 'Shadows Into Light', cursive;}
+        .width100{max-width:100%; max-height:100% auto;}
+        .max500{max-width: 500px;}
+        .opaque{opacity:.5;}
+        input[type="text"]{
+            background: transparent;
+            border: 1 white solid;
+            outline: none;
+        }
+        ::placeholder {
+            font-family: 'Shadows Into Light', cursive;
+        }
+        input[type=text]:focus {
+            background: transparent;
+        }
+        backgroundImg{position:fixed;}
+    </style>
 
 </head>
 <body>
 
+<div class="container mt-0 max500">
+    <h1 class="mt-2 mb-0 font-shadowLight text-center text-light">Satellites Search</h1>
+    <div class="input-group p-3">
+        <input type="text" id ="userSearch" class="text-white form-control" placeholder="Type Search Here...">
+        <div class="input-group-append">
+            <button id="submitBtn" type="button" class="btn btn-danger" >Search</button>
+        </div>
+    </div>
+
+
+
+    <!-- Kevin's Maps Display -->
+    <div id="mapsDisplay"></div>
+    <!-- Jamie's Satellite Display -->
+    <div id="satelliteDisplay"></div>
+    <!-- Jiajong's Weather Display -->
+    <div id="weatherDisplay"></div>
+    <!-- Alex's Wikipedia Display -->
+    <div id="wikiDisplay"></div>
+
+</div>
+
+
+
+
 <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
-    <script src="assets/java/javascript1.js"></script>
+    <script src="assets/javascript/javascript1.js"></script>
 </body>
 </html>
