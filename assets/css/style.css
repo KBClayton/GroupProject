@@ -1,3 +1,24 @@
+body{
+    background-image: url("../../assets/images/SatelliteEarth.jpg");
+    background-repeat: no-repeat;
+}
+.font-shadowLight{font-family: 'Shadows Into Light', cursive;}
+.width100{max-width:100%; max-height:100% auto;}
+.max500{max-width: 500px;}
+.opaque{opacity:.5;}
+input[type="text"]{
+    background: transparent;
+    border: 1 white solid;
+    outline: none;
+}
+::placeholder {
+    font-family: 'Shadows Into Light', cursive;
+}
+input[type=text]:focus {
+    background: transparent;
+}
+backgroundImg{position:fixed;}
+
 .anyClass { height:150px; overflow-y: scroll; }
 .sansSerif  {font-family: sans-serif;}
 #map{
@@ -6,3 +27,4 @@
     visibility: visible;
     background: purple;
 }
+
