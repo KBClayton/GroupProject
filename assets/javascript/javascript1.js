@@ -1,4 +1,5 @@
 
+
     var prevSearches = [];
     var savedSearches =[];
     var topSearches=[];
@@ -67,10 +68,12 @@ $(document).ready(function(){
         //Get Closest Title//
         $.ajax({
             url:queryURLBasic,
+
             method:"GET",
             dataType: "JSONP",
         }).
             then(function(response){
+
                 console.log(queryURLBasic);
                     // get the page IDs
                 var pageTitle = response.query.search[0].title;
@@ -109,6 +112,7 @@ $(document).ready(function(){
 
 
         
+
 
     });
 
