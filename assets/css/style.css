@@ -6,3 +6,25 @@
     visibility: visible;
     background: purple;
 }
+
+.dropDown {
+   
+    padding: 10px;
+    width: 200px;
+}
+.test1 {
+    display: none; 
+    padding: 10px;
+    pointer-events: none;
+}
+.dropDown:hover .test1 {
+    display: inline-block;
+}
+.dropDown:hover .test1:active {
+    display: none;
+}
+a {
+    pointer-events: auto;
+    color: lime;
+    font-weight: bold;
+}
