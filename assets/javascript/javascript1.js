@@ -1,4 +1,30 @@
+//holds array of future satellite passes
+var passArray = [];
+//holds array of satellites currently above user
+var aboveArray = [];
+//holds tle for mapping
+var tlestring = "";
+//holds start UTC for mapping
+var initialUTC = "";
+//holds end UTC for mapping
+var lastUTC = "";
+//holds latitude search result so it can be available for mapping/weather/satellitesearch
+var latSearch = "";
+//holds latitude search result so it can be available for mapping/weather/satellitesearch
+var longSearch = "";
+//array of satellite types available to user
+var satArray = ["Amateur Radio", "Beidou Navigation System", "Disaster Monitoring", "Education", "Galileo", "Global Positioning System (GPS)", "Glonass Operational", "ISS", "Military", "Navy Navigation Satellite System", "Russian LEO Navigation", "Space & Earth Science", "TV", "Weather", "XM and Sirius"]
+//array of corresponding satIDs for satellitesearch
+var satIdArray = [18, 35, 8, 29, 22, 20, 21, 2, 30, 24, 25, 26, 34, 3, 33]
+//holds categoryID
+var categoryID = "";
+//holds satellite ID
+var satID = "";
+
 $(document).ready(function(){
+
+    $("#aboveTable").css("display", "none");
+    $("#satelliteInfo").css("display", "none");
 
     $("#submitBtn").on("click", function(){
         $("#wikiDisplay").empty();
@@ -7,6 +33,20 @@ $(document).ready(function(){
         // var queryURL =   ("https://en.wikipedia.org/w/api.php?action=opensearch&prop=sections&sectionprop=toclevel%7Clevel%7Cline%7Cnumber%7Cindex%7Cfromtitle%7Canchor&sections=0&limit=1&search=" + userSearch);
         var queryURL =      ("https://en.wikipedia.org/w/api.php?format=json&titles=" + userSearch + "&action=query&prop=extracts&exintro=&explaintext=");
         console.log(queryURL);
+        //pull lat/long values from search bar
+        latSearch = $("#latSearch").val().trim();
+        longSearch = $("#longSearch").val().trim();
+
+        /*
+        var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/25544/" + latSearch + "/" + longSearch + "/0/5/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        console.log(queryURLvisPass);
+        replace 18 with a user input
+        var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/18/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        console.log(queryURLwhatsUp)
+
+        var queryURLtle = ("https://www.n2yo.com/rest/v1/satellite/tle/25544&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        console.log(queryURLwhatsUp)
+        */
 
         $.ajax({
             url:queryURL,
@@ -40,5 +80,147 @@ $(document).ready(function(){
 
         })
     });
+
+    //handles button click for finding satellites above user
+    $("#satSelectBtn").on("click", function(){
+        //clear table contents
+        //$("#aboveTable").css("display", "none"); 
+        $("#aboveTableBody").empty();
+        //variable to hold the type of satellite the user selects
+        var satType = $("#satTypeSelect").val().toString();
+        //loop to assign the appropriate satID
+        for (i=0; i < satIdArray.length; i++) {
+            if (satType == satArray[i]) {
+                categoryID = satIdArray[i];
+            }
+        }
+        console.log(satType);
+        console.log(categoryID);
+        //set the location variables from the user input
+        latSearch = $("#latSearch").val().trim();
+        longSearch = $("#longSearch").val().trim();
+        //prevent a search if the user has not input location information
+        if (latSearch == "" || longSearch == ""){
+            alert ("you must enter a latitude and longitude to continue.");
+            return;
+        }
+        
+        //what's up sat API query
+        var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        console.log(queryURLwhatsUp)
+        //populate aboveArray with the satellites returned by the API query
+        $.ajax({
+            url:queryURLwhatsUp,
+            method:"GET",
+            dataType: "JSON",
+            }).
+            then(function(response){
+                aboveArray = [];
+               
+                if (response.info.satcount == 0) {
+                    alert("There are currently no satellites of this type above your location. Please select another satellite type.");
+                    return;
+                }
+
+                for (i=0; i<response.above.length; i++){
+                    aboveArray.push(response.above[i]);
+                }
+                //make table visible
+                $("#aboveTable").css("display", "table");  
+                for(i=0; i<aboveArray.length; i++){
+                //add table html with relevant satellite data to the table body
+                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                 "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded' value='"
+                 + aboveArray[i].satid + "' >Select</button></td></tr>"
+                
+                        );
+
+                    }
+                     
+            });
+
+
+    });
+
+});
+
+//button that fires when user selects satellite
+$(document).on('click', '.btn-primary', function(){
+    //save button value (which was set to the satellite id)
+    satID = $(this).val();
+    //hide table and display satellite info div
+    $("#aboveTable").css("display", "none");
+    $("#satelliteInfo").css("display", "inherit");
+    //visual passes sat API query
+    var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/0/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+    console.log(queryURLvisPass);
+
+    $.ajax({
+        url:queryURLvisPass,
+        method:"GET",
+        dataType: "JSON",
+    }).
+        then(function(response){
+                //
+            passArray = [];
+            initialUTC = "";
+            lastUTC = "";
+           
+            if (response.info.passescount == 0) {
+                alert("There will be no visually observable passes for this satellite in the next 10 days at your location. Please select another satellite.");
+                $("#aboveTable").css("display", "table");
+                $("#satelliteInfo").css("display", "none");
+                return;
+            }
+
+            for (i=0; i<5; i++){
+                passArray.push(response.passes[i]);
+            }
+            
+            initialUTC = response.passes[0].startUTC;
+            lastUTC = response.passes[0].endUTC;
+            console.log("start UTC: " + initialUTC);
+            console.log("end UTC: " + lastUTC);
+            /*startDir = response.passes[0].startAzCompass;
+            endDir = response.passes[0].endAzCompass;
+            startElev =response.passes[0].startEl;
+            endElev = response.passes[0].endEl;
+            maxElev = response.passes[0].maxEl;
+            passLength = response.passes[0].duration;*/
+            
+            for(i=0; i<passArray.length; i++){
+            //add table html with relevant satellite data to the table body
+            $("#passTableBody").append("<tr> <th scope='row' id='startTimes'>" + response.passes[i].startUTC + 
+            "</th> <td id='endTimes'>" + response.passes[i].endUTC + 
+             "</td> <td id='startCoordinates'>"+ response.passes[i].startAzCompass + 
+            "</td> <td id='endCoordinates'>" + response.passes[i].endAzCompass + 
+            "</td> <td id='startEls'>" + response.passes[i].startEl + 
+            "</td> <td id='endEls'>" + response.passes[i].endEl + 
+            "</td> <td id='maxEls'>" + response.passes[i].maxEl + 
+            "</td> <td id='durations'>" + response.passes[i].duration + 
+            "</td></tr>"
+            
+                    );
+
+                }
+    });
+    //tle string API query
+    var queryURLtle = ("https://www.n2yo.com/rest/v1/satellite/tle/" + satID + "&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+
+    $.ajax({
+        url:queryURLtle,
+        method:"GET",
+        dataType: "JSON",
+        }).
+        then(function(response){
+        
+        tle = response.tle;
+        console.log("tle: " + response.tle);
+        
+        
+        });
 
 });
