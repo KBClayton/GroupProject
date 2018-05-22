@@ -1,2 +1,8 @@
 .anyClass { height:150px; overflow-y: scroll; }
 .sansSerif  {font-family: sans-serif;}
+#map{
+    width:60%;
+    height: 60%;
+    visibility: visible;
+    background: purple;
+}
