@@ -10,6 +10,13 @@ $(document).ready(function(){
             //startUTC and endUTC are from pass data from n2yo pass (visual or radio) search api (response.passes[0].startUTC and response.passes[0].endUTC)
             var startUTC=1526901635;
             var endUTC=1526902240;
+            //map variables so they can be reached globally
+            var map;
+            var marker_enter;
+            var marker_exit;
+            var satPath;
+            //elevation to get return from google elevation query
+            var elevation=0;
     
 
         var userSearch = $("#userSearch").val().trim();
@@ -46,16 +53,36 @@ $(document).ready(function(){
 
             $("#wikiDisplay").html(card);
 
-
-
             var mapobject = {
                 initial_map: function(){
                     console.log("in map initialize");
+                    function initMap() {
+                       map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 4,
+                        center: observer_location
+                      });
+                      var marker = new google.maps.Marker({
+                        position: uluru,
+                        title:"center",
+                        map: map
+                      });
+                    }
+                    $("#map").append(map)
+                },
+                elevation: function(){
+                    var elevationURL="https://maps.googleapis.com/maps/api/elevation/json?locations="+observer_location.lat+","+observer_location.lng+"&key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw";
+                    $.ajax({
+                        url: elevationURL,
+                        method: "GET"
+                    }).then(function(response) {
+                        elevation=response.elevation;
+                    }).fail(function(err) {
+                        console.log("Fail:  "+err);
+                        throw err;
+                    });
 
                 },
                 draw: function(){
-
-
                     //tlestring split into 2 parts for entry into sattelite 
                     var tle1=tlestring.split("\r\n")[0];
                     var tle2=tlestring.split("\r\n")[1];
@@ -74,11 +101,11 @@ $(document).ready(function(){
                     var latitude  = positionGd.latitude;
                     var longitudeStr = satellite.degreesLong(longitude);
                     var latitudeStr  = satellite.degreesLat(latitude);
-                    //google map code for entry point
+                    //google map code for entry point merker
                     var enter={lat: latitudeStr, lng: longitudeStr };
-                    var marker_enter = new google.maps.Marker({
+                    marker_enter = new google.maps.Marker({
                         position: enter,
-                        title: "enter"
+                        title: "Enters visibility"
                     });
                     marker_enter.setMap(map); 
 
@@ -94,19 +121,52 @@ $(document).ready(function(){
                     var exit_longitudeStr = satellite.degreesLong(exit_longitude);
                     var exit_latitudeStr  = satellite.degreesLat(exit_latitude);
                     var exit={lat: exit_latitudeStr , lng: exit_longitudeStr};
-                    //google map code for exit point
-                    var marker_exit = new google.maps.Marker({
+                    //google map code for exit point marker
+                    marker_exit = new google.maps.Marker({
                         position: exit,
-                        title: "exit"
+                        title: "Leaves visibility"
                     });
                     marker_exit.setMap(map);   
+
+
+                    //set up for orbital path data
+                    var roll_LineCoord=[];
+                    for(var i=0; i<600; i++){
+                    var setbackutc=startUTC-1000000;
+                    var rolltime=moment((setbackutc+(i*10000)),"x").toDate();
+                    var roll_positionAndVelocity = satellite.propagate(satrec, rolltime);
+        
+                    var roll_positionEci = roll_positionAndVelocity.position;
+                    var roll_velocityEci = roll_positionAndVelocity.velocity;
+        
+                    var roll_gmst = satellite.gstime(rolltime);
+        
+                    var roll_positionGd = satellite.eciToGeodetic(roll_positionEci, roll_gmst);
+                    var roll_longitude = roll_positionGd.longitude;
+                    var roll_latitude  = roll_positionGd.latitude;
+                    
+                    var roll_longitudeStr = satellite.degreesLong(roll_longitude);
+                    var roll_latitudeStr  = satellite.degreesLat(roll_latitude);
+                    roll_LineCoord.push({lat: roll_latitudeStr, lng: roll_longitudeStr});
+                    }
+
+                    //drawing 
+                    var roll_satPath = new google.maps.Polyline({
+                        path: roll_LineCoord,
+                        geodesic: true,
+                        strokeColor: '#0000FF',
+                        strokeOpacity: .7,
+                        strokeWeight: 1
+                      });
+                    roll_satPath.setMap(map);
+
 
                     //draw line between entry and exit
                     var satPathCoordinates = [
                         {lat: latitudeStr, lng: longitudeStr},
                         {lat: exit_latitudeStr, lng: exit_longitudeStr},
                     ];
-                    var satPath = new google.maps.Polyline({
+                    satPath = new google.maps.Polyline({
                         path: satPathCoordinates,
                         geodesic: true,
                         strokeColor: '#FF0000',
