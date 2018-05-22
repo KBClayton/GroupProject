@@ -1,10 +1,12 @@
-    var prevSearches = [];
-    var savedSearches =[];
-    var topSearches=[];
+//GLOBAL VARIABLES
 
-    $("#mapsBtn").hide();
-    $("#satBtn").hide();
-    $("#weathBtn").hide();
+//holds array of previous satellite searches
+var prevSearches = [];
+//holds array of saved satellite searches
+var savedSearches =[];
+//holds array of top satellite searches
+var topSearches=[];
+
     
 //holds array of future satellite passes
 var passArray = [];
@@ -29,58 +31,58 @@ var categoryID = "";
 //holds satellite ID
 var satID = "";
 
+    //Hides Buttons Until Searched
+    $("#mapsBtn").hide();   
+    $("#satBtn").hide();
+    $("#weathBtn").hide();
+
 $(document).ready(function(){
 
     $("#aboveTable").css("display", "none");
     $("#satelliteInfo").css("display", "none");
 
     $("#submitBtn").on("click", function(){
+        
         //Clear WikiDisplay
         $("#wikiDisplay").empty();
-        //clayton's variables
-            // observer_location needs to be the observer information from the input
-            var observer_location = {lat: 30, lng: -97};
-            //tlestring needs to be the tle response from the n2yo tle search api (response.tle)
-            var tlestring="1 25544U 98067A   18138.88883277 +.00001406 +00000-0 +28541-4 0  9997\r\n2 25544 051.6394 164.7606 0004002 099.1102 320.7609 15.54070224113965";
-            //startUTC and endUTC are from pass data from n2yo pass (visual or radio) search api (response.passes[0].startUTC and response.passes[0].endUTC)
-            var startUTC=1526901635;
-            var endUTC=1526902240;
-            //map variables so they can be reached globally
-            var map;
-            var marker_enter;
-            var marker_exit;
-            var satPath;
-            //elevation to get return from google elevation query
-            var elevation=0;
-    
 
+        //clayton's variables
+        // observer_location needs to be the observer information from the input
+        var observer_location = {lat: 30, lng: -97};
+        //tlestring needs to be the tle response from the n2yo tle search api (response.tle)
+        var tlestring="1 25544U 98067A   18138.88883277 +.00001406 +00000-0 +28541-4 0  9997\r\n2 25544 051.6394 164.7606 0004002 099.1102 320.7609 15.54070224113965";
+        //startUTC and endUTC are from pass data from n2yo pass (visual or radio) search api (response.passes[0].startUTC and response.passes[0].endUTC)
+        var startUTC=1526901635;
+        var endUTC=1526902240;
+        //map variables so they can be reached globally
+        var map;
+        var marker_enter;
+        var marker_exit;
+        var satPath;
+        //elevation to get return from google elevation query
+        var elevation=0;
+    
+        //Alex's Variables
         var userSearch = $("#userSearch").val().trim();
-            // userSearch = userSearch.replace(" ", "%20");
-        // var queryURL =   ("https://en.wikipedia.org/w/api.php?action=opensearch&prop=sections&sectionprop=toclevel%7Clevel%7Cline%7Cnumber%7Cindex%7Cfromtitle%7Canchor&sections=0&limit=1&search=" + userSearch);
         var queryURL =      ("https://en.wikipedia.org/w/api.php?format=json&titles=" + userSearch + "&action=query&prop=extracts&exintro=&explaintext=");
         console.log(queryURL);
         //pull lat/long values from search bar
         latSearch = $("#latSearch").val().trim();
         longSearch = $("#longSearch").val().trim();
 
-
         //Get Latitude and Longitude from Search
-        var queryURLLatLong = ("https://maps.googleapis.com/maps/api/geocode/json?&address=" + userSearch);
-        $.ajax({
-            url:queryURLLatLong,
-            method:"GET",
-            dataType: "JSON",
-        }).
-        then(function(response){
-            console.log(response)
-
-            latSearch = response.results[0].geometry.location.lat
-            longSearch = response.results[0].geometry.location.lng
-
-            console.log("lat: " + latSearch + " long: " + longSearch);
-
-        });
-
+            // var queryURLLatLong = ("https://maps.googleapis.com/maps/api/geocode/json?&address=" + userSearch);
+            // $.ajax({
+            //     url:queryURLLatLong,
+            //     method:"GET",
+            //     dataType: "JSON",
+            // }).
+            // then(function(response){
+            //     console.log(response)
+            //     latSearch = response.results[0].geometry.location.lat
+            //     longSearch = response.results[0].geometry.location.lng
+            //     console.log("lat: " + latSearch + " long: " + longSearch);
+            // });
 
         //Show Buttons
         $("#mapsBtn").show();
@@ -94,6 +96,7 @@ $(document).ready(function(){
         //                                                       //
         ///////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////
+        
         var prevSearchObject = {
             "satelliteID": userSearch,
             "latitude": latSearch,
@@ -115,14 +118,11 @@ $(document).ready(function(){
         //Get Closest Title//
         $.ajax({
             url:queryURLBasic,
-
             method:"GET",
             dataType: "JSONP",
         }).
             then(function(response){
-
-                console.log(queryURLBasic);
-                    // get the page IDs
+                // get the page Title
                 var pageTitle = response.query.search[0].title;
                 var pageid=response.query.search[0].pageid;
                 var queryURL = ("https://en.wikipedia.org/w/api.php?format=json&titles=" + pageTitle + "&action=query&prop=extracts&exsectionformat=plain&exintro=&explaintext=&");
@@ -151,10 +151,7 @@ $(document).ready(function(){
                         card.append(title, paragraph, wikiLink);
 
                     $("#wikiDisplay").html(card);
-                    console.log(card);
-                });
-
- 
+                }); 
             });
 
 
@@ -448,13 +445,12 @@ $(document).on('click', '.btn-primary', function(){
         tle = response.tle;
         console.log("tle: " + response.tle);
         
-        
         });
 
 });
 
 
-$(document).ready(function(){
+// $(document).ready(function(){
 
     $("#likeBtn").hide();
     $("#submitBtn").on("click", function(){
@@ -495,7 +491,7 @@ $(document).ready(function(){
             $("#weatherDisplay").html(weatherInfo);  
             //     $("#userSearch").append(".link");
             // });
-});
+// });
 
     // $("#mapsBtn").on("click", function(){
     //     $("#weatherDisplay").hide();
