@@ -5,11 +5,7 @@
     $("#mapsBtn").hide();
     $("#satBtn").hide();
     $("#weathBtn").hide();
-
-
-
-
-    //Submit Click Butt
+    
 //holds array of future satellite passes
 var passArray = [];
 //holds array of satellites currently above user
