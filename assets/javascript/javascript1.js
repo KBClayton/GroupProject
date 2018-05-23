@@ -11,6 +11,7 @@ var topSearches=[];
 var prevSearches = [];
 var savedSearches =[];
 var topSearches=[];
+var temp = 'abc';
 
 $("#mapsBtn").hide();
 $("#satBtn").hide();
@@ -478,10 +479,11 @@ $("#satSelectBtn").on("click", function(){
     })
 });
 
-
+//weather API
 $(document).ready(function(){
 
 $("#likeBtn").hide();
+
 $("#submitBtn").on("click", function(){
     $("#likeBtn").show();
     $("#weatherDisplay").empty();
@@ -495,47 +497,44 @@ $("#submitBtn").on("click", function(){
         url:queryURL,
         method:"GET",
     }).
-        then(function(response){
-                // get the page IDs        
-
-        var weatherInfo=$("<table>").addClass("card mt-3 p-3");
-        var name = $("<h4>").text("The Country is: " + response.city.name);
+        then(function(response){ 
+            var city = $("#country").text(response.city.name);
             console.log("The Country is: " + response.city.name);
-        weatherInfo.append(name);       
-        for (var i = 0; i <= 32; i+= 8) {
-            var date = $("<p>").text("Date: " + response.list[i].dt_txt);
-                console.log("Date: " + response.list[i].dt_txt);  
-            var weather = $("<p>").text("Local Weather is: " + response.list[i].weather[0].description);
-                console.log("Local Weather is: " + response.list[i].weather[0].description);    
-            var condition = $("<p>").text(" The Cloud is: " + response.list[i].clouds.all + "%");
-                console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
-            var wind = $("<p>").text(" The Wind is: " + response.list[i].wind.speed);
-                console.log(" The Wind is: " + response.list[i].wind.speed);
-            weatherInfo.append(date);
-            weatherInfo.append(weather);
-            weatherInfo.append(condition);
-            weatherInfo.append(wind);
+            temp = response.city.name;
+            console.log("!!!!!!!!!!!!!!");
+            console.log(temp);
+        $("#country").append(city);      
+        var weatherInfo=$("<table>").addClass("table table-hover");
+        //table head  
+        var head = ["Date","Weather", "Clouds","Wind"];
+        for (var j = 0; j < head.length; j++) {
+            var tHead = $("<th>").text(head[j]);
+            weatherInfo.append(tHead);
         }
-    
+     
+        //table body
+        for (var i = 0; i <= 32; i+= 8) {
+               
+            var date = $("<td>").text(response.list[i].dt_txt);
+                console.log("Date: " + response.list[i].dt_txt);  
+            var weather = $("<td>").text(response.list[i].weather[0].description);
+                console.log("Local Weather is: " + response.list[i].weather[0].description);    
+            var condition = $("<td>").text(response.list[i].clouds.all + "%");
+                console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
+            var wind = $("<td>").text(response.list[i].wind.speed);
+                console.log(" The Wind is: " + response.list[i].wind.speed);
+            var tBody = $("<tr>").append(date,weather,condition,wind);
+            tBody.appendTo(weatherInfo);
+            console.log(weatherInfo);
+        }
+        
         $("#weatherDisplay").html(weatherInfo);  
-        //     $("#userSearch").append(".link");
-        // });
+        });
+
 });
+// Add favorites button
+$("#likeBtn").on("click", function(){
 
-// $("#mapsBtn").on("click", function(){
-//     $("#weatherDisplay").hide();
-
-// });
-// $("#satBtn").on("click", function(){
-//     $("#weatherDisplay").hide();
-
-// });
-// $("#weathBtn").on("click", function(){
-//     $("#weatherDisplay").show();
-
-// });
-
-// $("#likeBtn").on("click", function(){
 
 });
 
@@ -619,70 +618,7 @@ $(document).off().on('click', '.btn-primary', function(){
         
         });
 
-});
-
-
-// $(document).ready(function(){
-
-    $("#likeBtn").hide();
-    $("#submitBtn").on("click", function(){
-        $("#likeBtn").show();
-        $("#weatherDisplay").empty();
-            var lattitude = $("#latSearch").val().trim();
-            var longtitude = $("#longSearch").val().trim();
-            var cityName = $("#userSearch").val().trim();
-            var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + lattitude + "&lon=" + longtitude + "&appid=764202827fb596fa8957502051063c79" );
-             console.log(queryURL);
-
-        $.ajax({
-            url:queryURL,
-            method:"GET",
-        }).
-            then(function(response){
-                    // get the page IDs        
-
-            var weatherInfo=$("<table>").addClass("card mt-3 p-3");
-            var name = $("<h4>").text("The Country is: " + response.city.name);
-                console.log("The Country is: " + response.city.name);
-            weatherInfo.append(name);       
-            for (var i = 0; i <= 32; i+= 8) {
-                var date = $("<p>").text("Date: " + response.list[i].dt_txt);
-                    console.log("Date: " + response.list[i].dt_txt);  
-                var weather = $("<p>").text("Local Weather is: " + response.list[i].weather[0].description);
-                    console.log("Local Weather is: " + response.list[i].weather[0].description);    
-                var condition = $("<p>").text(" The Cloud is: " + response.list[i].clouds.all + "%");
-                    console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
-                var wind = $("<p>").text(" The Wind is: " + response.list[i].wind.speed);
-                    console.log(" The Wind is: " + response.list[i].wind.speed);
-                weatherInfo.append(date);
-                weatherInfo.append(weather);
-                weatherInfo.append(condition);
-                weatherInfo.append(wind);
-            }
-        
-            $("#weatherDisplay").html(weatherInfo);  
-            //     $("#userSearch").append(".link");
-            // });
-// });
-
-    // $("#mapsBtn").on("click", function(){
-    //     $("#weatherDisplay").hide();
-
-    // });
-    // $("#satBtn").on("click", function(){
-    //     $("#weatherDisplay").hide();
-
-    // });
-    // $("#weathBtn").on("click", function(){
-    //     $("#weatherDisplay").show();
-
-    // });
-
-    // $("#likeBtn").on("click", function(){
-
-    });
-
-    });
+}); 
     
     });
     
