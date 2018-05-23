@@ -46,7 +46,7 @@ var satID = "";
 
 $(document).ready(function(){
 
-$("#aboveTable").css("display", "none");
+$(".satTypeDisplay").css("display", "none");
 $("#satelliteInfo").css("display", "none");
 
 $("#submitBtn").on("click", function(){
@@ -271,7 +271,8 @@ $("#submitBtn").on("click", function(){
 //handles button click for finding satellites above user
 $("#satTypeSelectBtn").on("click", function(){
     //clear table contents
-    //$("#aboveTable").css("display", "none"); 
+    $(".satTypeArea").css("display", "none");
+    $(".satTypeDisplay").css("display", "inherit");
     $("#aboveTableBody").empty();
     //variable to hold the type of satellite the user selects
     var satType = $("#satTypeSelect").val().toString();
@@ -323,7 +324,7 @@ $("#satTypeSelectBtn").on("click", function(){
              "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
             "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
             "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-             + aboveArray[i].satid + "' >Select</button></td></tr>"
+             + aboveArray[i].satid + "' >Select Satellite</button></td></tr>"
             
                     );
 
@@ -346,6 +347,19 @@ $("#satTypeSelectBtn").on("click", function(){
             }    
         });
 
+$("#chooseDifferentSatTypeBtn").off().on('click', function(){
+    //hide #satelliteInfo
+    $(".satTypeDisplay").css("display", "none");
+    //display #whatsUp 
+    $(".satTypeArea").css("display", "inherit");
+        });
+
+$("#chooseDifferentSatBtn").off().on('click', function(){
+    //hide #satelliteInfo
+    $("#satelliteInfo").css("display", "none");
+    //display #whatsUp 
+    $("#whatsUp").css("display", "inherit");
+        });
 
             var pageid = [];
             for( var id in response.query.pages ) {

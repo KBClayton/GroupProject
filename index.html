@@ -80,56 +80,62 @@
     <!-- Jamie's Satellite Display -->
     <div id="satelliteDisplay">
         <div id="whatsUp">
-            <div class="form-group">
-                <label for="satTypeSelect">Types of Satellites</label>
-                <select multiple class="form-control" id="satTypeSelect">
-                  <option>Amateur Radio</option>
-                  <option>Beidou Navigation System</option>
-                  <option>Disaster Monitoring</option>
-                  <option>Education</option>
-                  <option>Galileo</option>
-                  <option>Global Positioning System (GPS)</option>
-                  <option>Glonass Operational</option>
-                  <option>ISS</option>
-                  <option>Military</option>
-                  <option>Navy Navigation Satellite System</option>
-                  <option>Russian LEO Navigation</option>
-                  <option>Space and Earth Science</option>
-                  <option>TV</option>
-                  <option>Weather</option>
-                  <option>XM and Sirius</option>
-                </select>
-              </div>
-
-              <button id="satTypeSelectBtn" type="button" class="btn btn-danger rounded" >Select</button>
-              <!--bootstrap table with 5 columns-->
-              <table class="table table-bordered table-hover" id="aboveTable">
-                <thead id="aboveTableHeader">
-                <tr>
-                    <th scope="col">Satellite Name</th>
-                    <th scope="col">Satellite Id</th>
-                    <th scope="col">Altitude</th>
-                    <th scope="col">Launch Date</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <!--table body, will hold data retrieved from API query-->
-                <tbody id="aboveTableBody">
-                
-                </tbody>
-            </table>  
+            <div class = "satTypeArea">
+                <div class="form-group">
+                    <label for="satTypeSelect">Types of Satellites</label>
+                    <select multiple class="form-control" id="satTypeSelect">
+                    <option>Amateur Radio</option>
+                    <option>Beidou Navigation System</option>
+                    <option>Disaster Monitoring</option>
+                    <option>Education</option>
+                    <option>Galileo</option>
+                    <option>Global Positioning System (GPS)</option>
+                    <option>Glonass Operational</option>
+                    <option>ISS</option>
+                    <option>Military</option>
+                    <option>Navy Navigation Satellite System</option>
+                    <option>Russian LEO Navigation</option>
+                    <option>Space and Earth Science</option>
+                    <option>TV</option>
+                    <option>Weather</option>
+                    <option>XM and Sirius</option>
+                    </select>
+                </div>
+            
+                <button id="satTypeSelectBtn" type="button" class="btn btn-danger rounded" >Select</button>
+            </div>
+                <div class = "satTypeDisplay">
+                    <!--bootstrap table with 5 columns-->
+                    <table class="table table-bordered table-hover" id="aboveTable">
+                        <thead id="aboveTableHeader">
+                        <tr>
+                            <th scope="col">Satellite Name</th>
+                            <th scope="col">Satellite Id</th>
+                            <th scope="col">Altitude</th>
+                            <th scope="col">Launch Date</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <!--table body, will hold data retrieved from API query-->
+                        <tbody id="aboveTableBody">
+                        
+                        </tbody>
+                    </table>  
+                    <!--button to choose a different satellite type-->
+                    <button id="chooseDifferentSatTypeBtn" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                </div>
         </div>
-        </div>
-        <div id="satelliteInfo"></div>
+        
+        <div id="satelliteInfo">
         <!--bootstrap table with 5 columns-->
         <table class="table table-bordered table-hover" id="passTable">
             <thead id="passTableHeader">
             <tr>
                 <th scope="col">Start Time</th>
                 <th scope="col">End Time</th>
-                <th scope="col">Inital Direction</th>
+                <th scope="col">Initial Direction</th>
                 <th scope="col">End Direction</th>
-                <th scope="col">Inital Elevation</th>
+                <th scope="col">Initial Elevation</th>
                 <th scope="col">End Elevation</th>
                 <th scope="col">Maximum Elevation</th>
                 <th scope="col">Total Duration</th>
@@ -143,6 +149,7 @@
         <!--button to choose a different satellite-->
         <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
     </div>
+    </div>  
     <!-- Jiajong's Weather Display -->
     <div id="weatherDisplay"></div>
 
