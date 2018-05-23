@@ -271,8 +271,6 @@ $("#submitBtn").on("click", function(){
 //handles button click for finding satellites above user
 $("#satTypeSelectBtn").on("click", function(){
     //clear table contents
-    $(".satTypeArea").css("display", "none");
-    $(".satTypeDisplay").css("display", "inherit");
     $("#aboveTableBody").empty();
     //variable to hold the type of satellite the user selects
     var satType = $("#satTypeSelect").val().toString();
@@ -306,10 +304,13 @@ $("#satTypeSelectBtn").on("click", function(){
             aboveArray = [];
            
             if (response.info.satcount == 0) {
+                $(".satTypeArea").css("display", "inherit");
+                $(".satTypeDisplay").css("display", "none");
                 alert("There are currently no satellites of this type above your location. Please select another satellite type.");
                 return;
             }
-
+            $(".satTypeArea").css("display", "none");
+            $(".satTypeDisplay").css("display", "inherit");
             for (i=0; i<response.above.length; i++){
                 aboveArray.push(response.above[i]);
             }
@@ -347,11 +348,22 @@ $("#satTypeSelectBtn").on("click", function(){
             }    
         });
 
-$("#chooseDifferentSatTypeBtn").off().on('click', function(){
+$("#chooseDifferentSatTypeBtn1").off().on('click', function(){
     //hide #satelliteInfo
     $(".satTypeDisplay").css("display", "none");
     //display #whatsUp 
     $(".satTypeArea").css("display", "inherit");
+        });
+
+$("#chooseDifferentSatTypeBtn2").off().on('click', function(){
+    //hide #satelliteInfo
+    $("#satelliteInfo").css("display", "none");
+    //display .satTypeArea
+    $(".satTypeArea").css("display", "inherit");
+    //display #whatsUp 
+    $("#whatsUp").css("display", "inherit");
+    //hide .satTypeDisplay
+    $(".satTypeDisplay").css("display", "none");
         });
 
 $("#chooseDifferentSatBtn").off().on('click', function(){
@@ -579,9 +591,6 @@ $(document).off().on('click', '.satSelectorBtn', function(){
     satID = $(this).val();
     //empty out pass table
     $("#passTableBody").empty();
-    //hide table and display satellite info div
-    $("#whatsUp").css("display", "none");
-    $("#satelliteInfo").css("display", "inherit");
     //visual passes sat API query
     var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/0/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
     console.log(queryURLvisPass);
@@ -603,6 +612,9 @@ $(document).off().on('click', '.satSelectorBtn', function(){
                 $("#satelliteInfo").css("display", "none");
                 return;
             }
+            //hide table and display satellite info div
+            $("#whatsUp").css("display", "none");
+            $("#satelliteInfo").css("display", "inherit");
     
             for (i=0; i<response.info.passescount; i++){
                 passArray.push(response.passes[i]);

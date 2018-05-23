@@ -82,7 +82,7 @@
         <div id="whatsUp">
             <div class = "satTypeArea">
                 <div class="form-group">
-                    <label for="satTypeSelect">Types of Satellites</label>
+                    <label for="satTypeSelect">Select Satellite Type</label>
                     <select multiple class="form-control" id="satTypeSelect">
                     <option>Amateur Radio</option>
                     <option>Beidou Navigation System</option>
@@ -122,7 +122,7 @@
                         </tbody>
                     </table>  
                     <!--button to choose a different satellite type-->
-                    <button id="chooseDifferentSatTypeBtn" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                    <button id="chooseDifferentSatTypeBtn1" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
                 </div>
         </div>
         
@@ -146,8 +146,12 @@
             
             </tbody>
         </table>  
-        <!--button to choose a different satellite-->
-        <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
+        <div class = "satInfoBtnHldr"></div>
+            <!--button to choose a different satellite-->
+            <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
+            <!--another button to choose a different satellite type-->
+            <button id="chooseDifferentSatTypeBtn2" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+        </div>
     </div>
     </div>  
     <!-- Jiajong's Weather Display -->
