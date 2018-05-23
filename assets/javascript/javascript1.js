@@ -47,7 +47,7 @@ var satID = "";
 
 $(document).ready(function(){
 
-$("#aboveTable").css("display", "none");
+$(".satTypeDisplay").css("display", "none");
 $("#satelliteInfo").css("display", "none");
 
 $("#submitBtn").on("click", function(){
@@ -270,9 +270,8 @@ $("#submitBtn").on("click", function(){
 });
 
 //handles button click for finding satellites above user
-$("#satSelectBtn").on("click", function(){
+$("#satTypeSelectBtn").on("click", function(){
     //clear table contents
-    //$("#aboveTable").css("display", "none"); 
     $("#aboveTableBody").empty();
     //variable to hold the type of satellite the user selects
     var satType = $("#satTypeSelect").val().toString();
@@ -306,30 +305,74 @@ $("#satSelectBtn").on("click", function(){
             aboveArray = [];
            
             if (response.info.satcount == 0) {
+                $(".satTypeArea").css("display", "inherit");
+                $(".satTypeDisplay").css("display", "none");
                 alert("There are currently no satellites of this type above your location. Please select another satellite type.");
                 return;
             }
-
+            $(".satTypeArea").css("display", "none");
+            $(".satTypeDisplay").css("display", "inherit");
             for (i=0; i<response.above.length; i++){
                 aboveArray.push(response.above[i]);
             }
             //make table visible
-            $("#aboveTable").css("display", "table");  
+            $("#aboveTable").css("display", "table"); 
+            //if the length of aboveArray is less than 5, display all results
+            if (aboveArray.length < 5){
             for(i=0; i<aboveArray.length; i++){
             //add table html with relevant satellite data to the table body
             $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
             "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
              "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
             "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-            "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded' value='"
-             + aboveArray[i].satid + "' >Select</button></td></tr>"
+            "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+             + aboveArray[i].satid + "' >Select Satellite</button></td></tr>"
             
                     );
 
                 }
-                 
+            }
+            //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
+            else {
+                for(i=0; i < 5; i++){
+                    //add table html with relevant satellite data to the table body
+                    $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                    "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                     "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                    "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                    "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                     + aboveArray[i].satid + "' >Select</button></td></tr>"
+                    
+                            );
+        
+                        }
+            }    
         });
 
+$("#chooseDifferentSatTypeBtn1").off().on('click', function(){
+    //hide #satelliteInfo
+    $(".satTypeDisplay").css("display", "none");
+    //display #whatsUp 
+    $(".satTypeArea").css("display", "inherit");
+        });
+
+$("#chooseDifferentSatTypeBtn2").off().on('click', function(){
+    //hide #satelliteInfo
+    $("#satelliteInfo").css("display", "none");
+    //display .satTypeArea
+    $(".satTypeArea").css("display", "inherit");
+    //display #whatsUp 
+    $("#whatsUp").css("display", "inherit");
+    //hide .satTypeDisplay
+    $(".satTypeDisplay").css("display", "none");
+        });
+
+$("#chooseDifferentSatBtn").off().on('click', function(){
+    //hide #satelliteInfo
+    $("#satelliteInfo").css("display", "none");
+    //display #whatsUp 
+    $("#whatsUp").css("display", "inherit");
+        });
 
             var pageid = [];
             for( var id in response.query.pages ) {
@@ -542,14 +585,11 @@ $("#likeBtn").on("click", function(){
 
 
 //button that fires when user selects satellite
-$(document).off().on('click', '.btn-primary', function(){
+$(document).off().on('click', '.satSelectorBtn', function(){
     //save button value (which was set to the satellite id)
     satID = $(this).val();
     //empty out pass table
     $("#passTableBody").empty();
-    //hide table and display satellite info div
-    $("#aboveTable").css("display", "none");
-    $("#satelliteInfo").css("display", "inherit");
     //visual passes sat API query
     var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/0/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
     console.log(queryURLvisPass);
@@ -567,10 +607,13 @@ $(document).off().on('click', '.btn-primary', function(){
            
             if (response.info.passescount == 0) {
                 alert("There will be no visually observable passes for this satellite in the next 10 days at your location. Please select another satellite.");
-                $("#aboveTable").css("display", "table");
+                $("#whatsUp").css("display", "inherit");
                 $("#satelliteInfo").css("display", "none");
                 return;
             }
+            //hide table and display satellite info div
+            $("#whatsUp").css("display", "none");
+            $("#satelliteInfo").css("display", "inherit");
     
             for (i=0; i<response.info.passescount; i++){
                 passArray.push(response.passes[i]);
@@ -580,28 +623,69 @@ $(document).off().on('click', '.btn-primary', function(){
             lastUTC = response.passes[0].endUTC;
             console.log("start UTC: " + initialUTC);
             console.log("end UTC: " + lastUTC);
-            /*startDir = response.passes[0].startAzCompass;
-            endDir = response.passes[0].endAzCompass;
-            startElev =response.passes[0].startEl;
-            endElev = response.passes[0].endEl;
-            maxElev = response.passes[0].maxEl;
-            passLength = response.passes[0].duration;*/
             
+            //create if/else statement to limit results to 5 objects
+            if (passArray.length < 5){
             for(i=0; i<passArray.length; i++){
+            //holds the pass number
+            var passNumber = i + 1;
+            //holds the local start date for each pass
+            var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
+            //holds the local start time for each pass
+            var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
+            //holds the local end time for each pass
+            var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
+            //holds the local start date for each pass
+            var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
             //add table html with relevant satellite data to the table body
-            $("#passTableBody").append("<tr> <th scope='row' id='startTimes'>" + response.passes[i].startUTC + 
-            "</th> <td id='endTimes'>" + response.passes[i].endUTC + 
-             "</td> <td id='startCoordinates'>"+ response.passes[i].startAzCompass + 
-            "</td> <td id='endCoordinates'>" + response.passes[i].endAzCompass + 
-            "</td> <td id='startEls'>" + response.passes[i].startEl + 
-            "</td> <td id='endEls'>" + response.passes[i].endEl + 
-            "</td> <td id='maxEls'>" + response.passes[i].maxEl + 
-            "</td> <td id='durations'>" + response.passes[i].duration + 
-            "</td></tr>"
+            var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
+            //holds the local start date for each pass
+            var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
+            //add table html with relevant satellite data to the table body
+            $("#passTableBody").append("<tr> <th scope='row' id='pass numbers'>" + passNumber + 
+            "</th> <td id='startDates'>" + localStartDate + 
+            "</th> <td id='startTimes'>" + localStartTime + 
+            "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
+            "&deg; (" + response.passes[i].startAzCompass +
+            ")</td> <td id='startEls'>" + response.passes[i].startEl +
+            "&deg;</th> <td id='maxDates'>" + localMaxDate + 
+            "</th> <td id='maxTimes'>" + localMaxTime +   
+            "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
+            "&deg; (" + response.passes[i].maxAzCompass + 
+            ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
+            "&deg;</th> <td id='endDates'>" + localEndDate + 
+            "</th> <td id='endTimes'>" + localEndTime +   
+            "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
+            "&deg; (" + response.passes[i].endAzCompass + 
+            ")</td> <td id='endEls'>" + response.passes[i].endEl +
+            "&deg;</td></tr>"
             
                     );
     
                 }
+            }
+            //for satellites where passArray length >= 5, only display 5 results  
+            else {
+                for(i=0; i < 5; i++){
+                    //holds the local start time for each pass
+                    var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY, h:mm:ss a');
+                    //holds the local start time for each pass
+                    var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY, h:mm:ss a');
+                    //add table html with relevant satellite data to the table body
+                    $("#passTableBody").append("<tr> <th scope='row' id='startTimes'>" + localStartTime + 
+                    "</th> <td id='endTimes'>" + localEndTime + 
+                     "</td> <td id='startCoordinates'>"+ response.passes[i].startAzCompass + 
+                    "</td> <td id='endCoordinates'>" + response.passes[i].endAzCompass + 
+                    "</td> <td id='startEls'>" + response.passes[i].startEl + 
+                    "</td> <td id='endEls'>" + response.passes[i].endEl + 
+                    "</td> <td id='maxEls'>" + response.passes[i].maxEl + 
+                    "</td> <td id='durations'>" + response.passes[i].duration + 
+                    "</td></tr>"
+                    
+                            );
+            
+                        } 
+            } 
     });
     //tle string API query
     var queryURLtle = ("https://www.n2yo.com/rest/v1/satellite/tle/" + satID + "&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
