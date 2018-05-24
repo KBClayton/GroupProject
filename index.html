@@ -32,64 +32,146 @@
 <div class="container mt-0 max500">
     <h1 class="mt-2 mb-0 font-shadowLight text-center text-light">Satellites Search</h1>
     <div class = "row">
-            <div class = "col-sm-4">
-             <ul class="dropDown">
-               <h6 class="text-center text-info"><span class="text-secondary">Recent </span></h6>
-              <li class="test1">
-              <ul class="content">
-                  <li class="link"><a href="http://www.google.com">Go to link 1</a></li>
-                  <li class="link"><a href="https://www.google.co.uk">Go to link 2</a></li>
-                  <li class="link"><a href="https://www.google.co.uk">Go to link 3</a></li>
-              </ul>
-             </ul>
-            </div>
-            <div class = "col-sm-4">
+        <div class = "col-sm-4">
             <ul class="dropDown">
-               <h6 class="text-center text-info"><span class="text-info">Favorites </span></h6>
-              <li class="test1">
-              <ul class="content">
-                  <li class="addFav">link</li>
-                  
-              </ul>
-             </ul>
-            </div>
-    
-    
-      <div class="input-group p-3">
-        <input type="text" id ="userSearch" class="text-white form-control" placeholder="Type Search Here...">
-        <div class="input-group-append mt-2">
-            <input type="text" id ="latSearch" class="text-white form-control" placeholder="Lattitude...">
-            <input type="text" id ="longSearch" class="text-white form-control" placeholder="Longitude...">
-            <button id="submitBtn" type="button" class="btn btn-danger rounded" >Search</button>
-
+                <h6 class="text-center text-info"><span class="text-secondary">Recent </span></h6>
+                <li class="test1">
+                <ul class="content">
+                    <li class="link"><a href="http://www.google.com">Go to link 1</a></li>
+                    <li class="link"><a href="https://www.google.co.uk">Go to link 2</a></li>
+                    <li class="link"><a href="https://www.google.co.uk">Go to link 3</a></li>
+                </ul>
+            </ul>
         </div>
-
-        <div class = "satTypeArea">
-            <div class="form-group">
-                <label for="satTypeSelect">Select Satellite Type</label>
-                <select multiple class="form-control" id="satTypeSelect">
-                <option>Amateur Radio</option>
-                <option>Beidou Navigation System</option>
-                <option>Disaster Monitoring</option>
-                <option>Education</option>
-                <option>Galileo</option>
-                <option>Global Positioning System (GPS)</option>
-                <option>Glonass Operational</option>
-                <option>ISS</option>
-                <option>Military</option>
-                <option>Navy Navigation Satellite System</option>
-                <option>Russian LEO Navigation</option>
-                <option>Space and Earth Science</option>
-                <option>TV</option>
-                <option>Weather</option>
-                <option>XM and Sirius</option>
-                </select>
-            </div>
-        
-            <!--button id="satTypeSelectBtn" type="button" class="btn btn-danger rounded" >Select</button-->
+        <div class = "col-sm-4">
+            <ul class="dropDown">
+                <h6 class="text-center text-info"><span class="text-info">Favorites </span></h6>
+                <li class="test1">
+                <ul class="content">
+                    <li class="addFav">link</li>                  
+                </ul>
+            </ul>
+        </div>
+        <div class = "col-sm-4">
+            <ul class="dropDown">
+                <h6 class="text-center text-info"><span class="text-info">Top Searches </span></h6>
+                    <li class="test1"></li>
+                <ul class="content">
+                    <li class="addFav">link</li>                  
+                </ul>
+            </ul>
         </div>
     </div>
+    <div class="card bg-dark p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <div class = "satTypeArea">
+                    <div class="form-group">
+                        <label for="satTypeSelect">Satellite Type</label>
+                        <select multiple class="form-control" id="satTypeSelect">
+                        <option>Amateur Radio</option>
+                        <option>Beidou Navigation System</option>
+                        <option>Disaster Monitoring</option>
+                        <option>Education</option>
+                        <option>Galileo</option>
+                        <option>Global Positioning System (GPS)</option>
+                        <option>Glonass Operational</option>
+                        <option>ISS</option>
+                        <option>Military</option>
+                        <option>Navy Navigation Satellite System</option>
+                        <option>Russian LEO Navigation</option>
+                        <option>Space and Earth Science</option>
+                        <option>TV</option>
+                        <option>Weather</option>
+                        <option>XM and Sirius</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <label for="input">Search by Location</label>
+                <div class="input-group">                       
+                    <input type="text" id ="userSearch" class="text-white form-control" placeholder="Type Search Here...">
+                    <div class="input-group-append mt-2">
+                        <input type="text" id ="latSearch" class="text-white form-control" placeholder="Lattitude...">
+                        <input type="text" id ="longSearch" class="text-white form-control" placeholder="Longitude...">
+                        <button id="submitBtn" type="button" class="btn btn-danger rounded" >Search</button>            
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div>
+    
 
+    <div class="card bg-dark p-3 mt-3">
+        <span>
+            <span class="display-4">Austin </span>
+            <button>Satellite</button>
+            <button>Maps</button>
+            <button>Weather</button>
+            <button class="bg-info">Add to Favorites</button>
+        </span>
+
+        <div class="card">
+
+    <!-- Satellite DISPLAY 1 -->
+            <div id="satelliteDisplay">
+                <div id="whatsUp">
+                    <div class = "satTypeDisplay">
+                        <!--bootstrap table with 5 columns-->
+                        <table class="table table-bordered table-hover" id="aboveTable">
+                        <thead id="aboveTableHeader">
+                            <tr>
+                                <th scope="col">Satellite Name</th>
+                                <th scope="col">Satellite Id</th>
+                                <th scope="col">Altitude</th>
+                                <th scope="col">Launch Date</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                    <!--table body, will hold data retrieved from API query-->
+                        <tbody id="aboveTableBody">                    
+                        </tbody>
+                        </table>  
+                <!--button to choose a different satellite type-->
+                        <button id="chooseDifferentSatTypeBtn1" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                    </div>
+                </div>
+                
+        
+                <div id="satelliteInfo">
+        <!--bootstrap table with 5 columns-->
+                    <table class="table table-bordered table-hover" id="passTable">
+                        <thead id="passTableHeader">
+                            <tr>
+                                <th scope="col">Pass</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Start Time</th>
+                                <th scope="col">Initial Direction</th>
+                                <th scope="col">Initial Elevation</th>
+                                <th scope="col">Maximum El. Date</th>
+                                <th scope="col">Maximum El. Time</th>
+                                <th scope="col">Maximum Direction</th>
+                                <th scope="col">Maximum Elevation</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">End Time</th>
+                                <th scope="col">End Direction</th>
+                                <th scope="col">End Elevation</th>
+                            </tr>
+                        </thead>
+                <!--table body, will hold data retrieved from firebase-->
+                        <tbody id="passTableBody"></tbody>
+                    </table>  
+                    <div class = "satInfoBtnHldr"></div>
+                <!--button to choose a different satellite-->
+                        <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
+                <!--another button to choose a different satellite type-->
+                        <button id="chooseDifferentSatTypeBtn2" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
 
 
     <!-- Kevin's Maps Display -->
@@ -102,63 +184,7 @@
 
     </div>
     <!-- Jamie's Satellite Display -->
-    <div id="satelliteDisplay">
-        <div id="whatsUp">
-            
-                <div class = "satTypeDisplay">
-                    <!--bootstrap table with 5 columns-->
-                    <table class="table table-bordered table-hover" id="aboveTable">
-                        <thead id="aboveTableHeader">
-                        <tr>
-                            <th scope="col">Satellite Name</th>
-                            <th scope="col">Satellite Id</th>
-                            <th scope="col">Altitude</th>
-                            <th scope="col">Launch Date</th>
-                            <th scope="col"></th>
-                        </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from API query-->
-                        <tbody id="aboveTableBody">
-                        
-                        </tbody>
-                    </table>  
-                    <!--button to choose a different satellite type-->
-                    <button id="chooseDifferentSatTypeBtn1" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
-                </div>
-        </div>
-        
-        <div id="satelliteInfo">
-        <!--bootstrap table with 5 columns-->
-        <table class="table table-bordered table-hover" id="passTable">
-            <thead id="passTableHeader">
-            <tr>
-                <th scope="col">Pass</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">Start Time</th>
-                <th scope="col">Initial Direction</th>
-                <th scope="col">Initial Elevation</th>
-                <th scope="col">Maximum El. Date</th>
-                <th scope="col">Maximum El. Time</th>
-                <th scope="col">Maximum Direction</th>
-                <th scope="col">Maximum Elevation</th>
-                <th scope="col">End Date</th>
-                <th scope="col">End Time</th>
-                <th scope="col">End Direction</th>
-                <th scope="col">End Elevation</th>
-            </thead>
-            <!--table body, will hold data retrieved from firebase-->
-            <tbody id="passTableBody">
-            
-            </tbody>
-        </table>  
-        <div class = "satInfoBtnHldr"></div>
-            <!--button to choose a different satellite-->
-            <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
-            <!--another button to choose a different satellite type-->
-            <button id="chooseDifferentSatTypeBtn2" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
-        </div>
-    </div>
-    </div>  
+
     <!-- Jiajong's Weather Display -->
     
     <div class="row">
@@ -170,10 +196,7 @@
         </div>
     </div>
 
- <!--city name  -->
-    <h3 id = "country"></h3>
-    <div id="weatherDisplay"></div>
-        
+
     
 
         <!-- Alex's Wikipedia Display -->
@@ -184,6 +207,7 @@
 <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
     <script src="assets/javascript/javascript1.js"></script>
     <script src="assets/javascript/pagedisplay.js"></script>
+    <script src="assets/javascript/maps.js"></script>
 
 </body>
 </html>
