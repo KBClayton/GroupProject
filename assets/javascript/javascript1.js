@@ -185,9 +185,83 @@ $("#submitBtn").on("click", function(){
         $("#longSearch").val(longSearch);
         console.log("lat: " + latSearch + " long: " + longSearch);
 
+        $("#aboveTableBody").empty();
+        //variable to hold the type of satellite the user selects
+        var satType = $("#satTypeSelect").val().toString();
+        //loop to assign the appropriate satID
+        for (i=0; i < satIdArray.length; i++) {
+            if (satType == satArray[i]) {
+                categoryID = satIdArray[i];
+            }
+        }
+        console.log(satType);
+        console.log(categoryID);
+        //set the location variables from the user input
+        latSearch = $("#latSearch").val().trim();
+        longSearch = $("#longSearch").val().trim();
+        //prevent a search if the user has not input location information
+        if (latSearch == "" || longSearch == ""){
+            alert ("you must enter a latitude and longitude to continue.");
+            return;
+        }
+        
+        //what's up sat API query
+        var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        console.log(queryURLwhatsUp)
+        //populate aboveArray with the satellites returned by the API query
+        $.ajax({
+            url:queryURLwhatsUp,
+            method:"GET",
+            dataType: "JSON",
+            }).
+            then(function(response){
+                aboveArray = [];
+               
+                if (response.info.satcount == 0) {
+                    $(".satTypeArea").css("display", "inherit");
+                    $(".satTypeDisplay").css("display", "none");
+                    alert("There are currently no satellites of this type above your location. Please select another satellite type.");
+                    return;
+                }
+                //$(".satTypeArea").css("display", "none");
+                $(".satTypeDisplay").css("display", "inherit");
+                for (i=0; i<response.above.length; i++){
+                    aboveArray.push(response.above[i]);
+                }
+                //make table visible
+                $("#aboveTable").css("display", "table"); 
+                //if the length of aboveArray is less than 5, display all results
+                if (aboveArray.length < 5){
+                for(i=0; i<aboveArray.length; i++){
+                //add table html with relevant satellite data to the table body
+                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                 "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                 + aboveArray[i].satid + "' >Select Satellite</button></td></tr>"
+                
+                        );
+    
+                    }
+                }
+                //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
+                else {
+                    for(i=0; i < 5; i++){
+                        //add table html with relevant satellite data to the table body
+                        $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                        "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                         "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                        "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                        "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                         + aboveArray[i].satid + "' >Select</button></td></tr>"
+                        
+                                );
+            
+                            }
+                }  
     });
-
-
+  
     //Show Buttons
     $("#mapsBtn").show();
     $("#satBtn").show();
@@ -269,85 +343,11 @@ $("#submitBtn").on("click", function(){
 
 });
 
-//handles button click for finding satellites above user
+/*handles button click for finding satellites above user
 $("#satTypeSelectBtn").on("click", function(){
     //clear table contents
-    $("#aboveTableBody").empty();
-    //variable to hold the type of satellite the user selects
-    var satType = $("#satTypeSelect").val().toString();
-    //loop to assign the appropriate satID
-    for (i=0; i < satIdArray.length; i++) {
-        if (satType == satArray[i]) {
-            categoryID = satIdArray[i];
-        }
-    }
-    console.log(satType);
-    console.log(categoryID);
-    //set the location variables from the user input
-    latSearch = $("#latSearch").val().trim();
-    longSearch = $("#longSearch").val().trim();
-    //prevent a search if the user has not input location information
-    if (latSearch == "" || longSearch == ""){
-        alert ("you must enter a latitude and longitude to continue.");
-        return;
-    }
     
-    //what's up sat API query
-    var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
-    console.log(queryURLwhatsUp)
-    //populate aboveArray with the satellites returned by the API query
-    $.ajax({
-        url:queryURLwhatsUp,
-        method:"GET",
-        dataType: "JSON",
-        }).
-        then(function(response){
-            aboveArray = [];
-           
-            if (response.info.satcount == 0) {
-                $(".satTypeArea").css("display", "inherit");
-                $(".satTypeDisplay").css("display", "none");
-                alert("There are currently no satellites of this type above your location. Please select another satellite type.");
-                return;
-            }
-            $(".satTypeArea").css("display", "none");
-            $(".satTypeDisplay").css("display", "inherit");
-            for (i=0; i<response.above.length; i++){
-                aboveArray.push(response.above[i]);
-            }
-            //make table visible
-            $("#aboveTable").css("display", "table"); 
-            //if the length of aboveArray is less than 5, display all results
-            if (aboveArray.length < 5){
-            for(i=0; i<aboveArray.length; i++){
-            //add table html with relevant satellite data to the table body
-            $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-            "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-             "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-            "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-            "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-             + aboveArray[i].satid + "' >Select Satellite</button></td></tr>"
-            
-                    );
-
-                }
-            }
-            //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
-            else {
-                for(i=0; i < 5; i++){
-                    //add table html with relevant satellite data to the table body
-                    $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-                    "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-                     "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-                    "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-                    "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-                     + aboveArray[i].satid + "' >Select</button></td></tr>"
-                    
-                            );
-        
-                        }
-            }    
-        });
+        });*/
 
 $("#chooseDifferentSatTypeBtn1").off().on('click', function(){
     //hide #satelliteInfo

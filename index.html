@@ -63,6 +63,31 @@
             <button id="submitBtn" type="button" class="btn btn-danger rounded" >Search</button>
 
         </div>
+
+        <div class = "satTypeArea">
+            <div class="form-group">
+                <label for="satTypeSelect">Select Satellite Type</label>
+                <select multiple class="form-control" id="satTypeSelect">
+                <option>Amateur Radio</option>
+                <option>Beidou Navigation System</option>
+                <option>Disaster Monitoring</option>
+                <option>Education</option>
+                <option>Galileo</option>
+                <option>Global Positioning System (GPS)</option>
+                <option>Glonass Operational</option>
+                <option>ISS</option>
+                <option>Military</option>
+                <option>Navy Navigation Satellite System</option>
+                <option>Russian LEO Navigation</option>
+                <option>Space and Earth Science</option>
+                <option>TV</option>
+                <option>Weather</option>
+                <option>XM and Sirius</option>
+                </select>
+            </div>
+        
+            <!--button id="satTypeSelectBtn" type="button" class="btn btn-danger rounded" >Select</button-->
+        </div>
     </div>
 
 
@@ -79,30 +104,7 @@
     <!-- Jamie's Satellite Display -->
     <div id="satelliteDisplay">
         <div id="whatsUp">
-            <div class = "satTypeArea">
-                <div class="form-group">
-                    <label for="satTypeSelect">Select Satellite Type</label>
-                    <select multiple class="form-control" id="satTypeSelect">
-                    <option>Amateur Radio</option>
-                    <option>Beidou Navigation System</option>
-                    <option>Disaster Monitoring</option>
-                    <option>Education</option>
-                    <option>Galileo</option>
-                    <option>Global Positioning System (GPS)</option>
-                    <option>Glonass Operational</option>
-                    <option>ISS</option>
-                    <option>Military</option>
-                    <option>Navy Navigation Satellite System</option>
-                    <option>Russian LEO Navigation</option>
-                    <option>Space and Earth Science</option>
-                    <option>TV</option>
-                    <option>Weather</option>
-                    <option>XM and Sirius</option>
-                    </select>
-                </div>
             
-                <button id="satTypeSelectBtn" type="button" class="btn btn-danger rounded" >Select</button>
-            </div>
                 <div class = "satTypeDisplay">
                     <!--bootstrap table with 5 columns-->
                     <table class="table table-bordered table-hover" id="aboveTable">
