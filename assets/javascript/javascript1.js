@@ -170,7 +170,7 @@ $("#submitBtn").on("click", function(){
 
 
     //Get Latitude and Longitude from Search
-    var queryURLLatLong = ("https://maps.googleapis.com/maps/api/geocode/json?&address=" + userSearch);
+    var queryURLLatLong = ("https://maps.googleapis.com/maps/api/geocode/json?&address=" + userSearch + "&apikey=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw");
     $.ajax({
         url:queryURLLatLong,
         method:"GET",
