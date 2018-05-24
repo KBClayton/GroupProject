@@ -673,15 +673,23 @@ $(document).off().on('click', '.satSelectorBtn', function(){
                     //holds the local start time for each pass
                     var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY, h:mm:ss a');
                     //add table html with relevant satellite data to the table body
-                    $("#passTableBody").append("<tr> <th scope='row' id='startTimes'>" + localStartTime + 
-                    "</th> <td id='endTimes'>" + localEndTime + 
-                     "</td> <td id='startCoordinates'>"+ response.passes[i].startAzCompass + 
-                    "</td> <td id='endCoordinates'>" + response.passes[i].endAzCompass + 
-                    "</td> <td id='startEls'>" + response.passes[i].startEl + 
-                    "</td> <td id='endEls'>" + response.passes[i].endEl + 
-                    "</td> <td id='maxEls'>" + response.passes[i].maxEl + 
-                    "</td> <td id='durations'>" + response.passes[i].duration + 
-                    "</td></tr>"
+                    $("#passTableBody").append("<tr> <th scope='row' id='pass numbers'>" + passNumber + 
+                    "</th> <td id='startDates'>" + localStartDate + 
+                    "</th> <td id='startTimes'>" + localStartTime + 
+                    "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
+                    "&deg; (" + response.passes[i].startAzCompass +
+                    ")</td> <td id='startEls'>" + response.passes[i].startEl +
+                    "&deg;</th> <td id='maxDates'>" + localMaxDate + 
+                    "</th> <td id='maxTimes'>" + localMaxTime +   
+                    "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
+                    "&deg; (" + response.passes[i].maxAzCompass + 
+                    ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
+                    "&deg;</th> <td id='endDates'>" + localEndDate + 
+                    "</th> <td id='endTimes'>" + localEndTime +   
+                    "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
+                    "&deg; (" + response.passes[i].endAzCompass + 
+                    ")</td> <td id='endEls'>" + response.passes[i].endEl +
+                    "&deg;</td></tr>"
                     
                             );
             
