@@ -50,7 +50,7 @@ $(document).ready(function(){
 $(".satTypeDisplay").css("display", "none");
 $("#satelliteInfo").css("display", "none");
 
-$("#submitBtn").on("click", function(){
+$("#submitBtn").off().on("click", function(){
     //Clear WikiDisplay
     $("#wikiDisplay").empty();
     //clayton's variables
@@ -667,10 +667,20 @@ $(document).off().on('click', '.satSelectorBtn', function(){
             //for satellites where passArray length >= 5, only display 5 results  
             else {
                 for(i=0; i < 5; i++){
+                    //holds the pass number
+                    var passNumber = i + 1;
+                    //holds the local start date for each pass
+                    var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
                     //holds the local start time for each pass
-                    var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY, h:mm:ss a');
-                    //holds the local start time for each pass
-                    var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY, h:mm:ss a');
+                    var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
+                    //holds the local end time for each pass
+                    var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
+                    //holds the local start date for each pass
+                    var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
+                    //add table html with relevant satellite data to the table body
+                    var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
+                    //holds the local start date for each pass
+                    var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
                     //add table html with relevant satellite data to the table body
                     $("#passTableBody").append("<tr> <th scope='row' id='pass numbers'>" + passNumber + 
                     "</th> <td id='startDates'>" + localStartDate + 
