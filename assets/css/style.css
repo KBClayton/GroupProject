@@ -69,3 +69,7 @@ a {
     bottom:0px;
     font-size: 12px;
 }
+
+#aboveTable {
+    max-width: 100%; overflow: scroll;
+}
