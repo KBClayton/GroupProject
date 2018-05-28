@@ -573,7 +573,7 @@ function printLocalFav(){
     }
 }
 //weather API
-$(document).ready(function(){
+// $(document).ready(function(){
 
 printLocalFav();
 
@@ -633,7 +633,7 @@ $("#submitBtn").on("click", function(weather){
         var longtitude = data_array[2];
         callWeatherApi(lattitude,longtitude,cityName);
     });
-});
+// });
 
 
 //button that fires when user selects satellite
