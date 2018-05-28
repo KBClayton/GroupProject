@@ -1,10 +1,14 @@
+html {
+    height:100%;
+}
+
 body{
     background-image: url("../../assets/images/SatelliteEarth.jpg");
     background-repeat: no-repeat;
     color: white;
+    min-height: 100%;
 }
 .font-shadowLight{font-family: 'Shadows Into Light', cursive;}
-.width100{max-width:100%; max-height:100% auto;}
 .max500{max-width: 700px auto;}
 .opaque{opacity:.5;}
 input[type="text"]{
@@ -32,6 +36,7 @@ backgroundImg{position:fixed;}
 .dropDown {
    padding: 0px;
     width: 100%;
+    margin-bottom:0px;
 }
 .test1 {
     display: none; 
@@ -52,10 +57,15 @@ ul.content {
 }
 a {
     pointer-events: auto;
-    color: lime;
-    font-weight: bold;
+    color: white;
 }
 
 #satelliteDisplay {
     color: whitesmoke;
+}
+
+.footer {
+    position: absolute;
+    bottom:0px;
+    font-size: 12px;
 }
