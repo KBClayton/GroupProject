@@ -556,7 +556,6 @@ function callWeatherApi(lattitude,longtitude,cityName){
         $("#weatherDisplay").html(weatherInfo);  
         });
 
-
 }
 
 function printLocalFav(){
@@ -569,12 +568,10 @@ function printLocalFav(){
             var city= local_fav_array[i].city;
             var lattitude = local_fav_array[i].lattitude;
             var longitude = local_fav_array[i].longitude;
-            $("#myFav").append("<button class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</button>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
         }
     }
- 
 }
-
 //weather API
 $(document).ready(function(){
 
@@ -594,7 +591,6 @@ $("#submitBtn").on("click", function(weather){
 
 
 });
-// Add favorites button
 
    // Button for adding favorites
    $("#likeBtn").on("click", function(event) {
@@ -614,21 +610,19 @@ $("#submitBtn").on("click", function(weather){
                 longitude: longInput,
             };
 
-            var new_local_fav = localStorage.getItem("myFav") 
-            if(new_local_fav){
+            var new_local_fav = localStorage.getItem("myFav");
+            if(!new_local_fav){
                 new_local_fav.push(newSatellite);
-            }{
-                new_local_fav = [newSatellite]
+            }
+            else {
+                new_local_fav = [newSatellite];
             }
             localStorage.setItem("myFav", JSON.stringify(new_local_fav));
-            $("#myFav").append("<button class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</button>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
         }
    });
 
-    // $(".addFav").on("click", function(){
-    //     alert("hi");
-    // });
-
+   
     $("#myFav").on("click",".addFav",function(){
         // alert("hi");
         var data_string = $(this).text();
