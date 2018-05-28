@@ -28,36 +28,36 @@
     
 </head>
 <body>
-
-<div class="container mt-0 max500">
-    <h1 class="mt-2 mb-0 font-shadowLight text-center text-light">Satellites Search</h1>
-    <div class = "row">
-        <div class = "col-sm-4">
+<h1 class="mt-2 mb-0 font-shadowLight text-center text-light">Satellites Search</h1>
+<div class="container mt-0">
+    
+    <div class="row">
+        <div class="col-4">
             <ul class="dropDown">
-                <h6 class="text-center text-info"><span class="text-secondary">Recent </span></h6>
+                <h6 class="text-center text-info">Recent</h6>
                 <li class="test1">
                 <ul class="content">
-                    <li class="link"><a href="http://www.google.com">Go to link 1</a></li>
+                    <li class="link text-center"><a href="http://www.google.com">Go to link 1</a></li>
                     <li class="link"><a href="https://www.google.co.uk">Go to link 2</a></li>
                     <li class="link"><a href="https://www.google.co.uk">Go to link 3</a></li>
                 </ul>
             </ul>
         </div>
-        <div class = "col-sm-4">
+        <div class="col-4 text-center">
             <ul class="dropDown">
-                <h6 class="text-center text-info"><span class="text-info">Favorites </span></h6>
-                    <li class="test1">
+                <h6 class="text-center text-info">Favorites</h6>
+                <li class="test1">
                 <ul class="content">
                     <li class="addFav">link</li>                  
                 </ul>
             </ul>
         </div>
-        <div class = "col-sm-4">
+        <div class="col-4 text-center">
             <ul class="dropDown">
-                <h6 class="text-center text-info"><span class="text-info">Top Searches </span></h6>
+                <h6 class="text-center text-info">Top Searches</h6>
                     <li class="test1">
                 <ul class="content">
-                    <li class="addFav">link</li>                  
+                    <li class="addFav">link                  
                 </ul>
             </ul>
         </div>
@@ -67,7 +67,7 @@
             <div class="col-md-4">
                 <div class = "satTypeArea">
                     <div class="form-group">
-                        <label for="satTypeSelect">Satellite Type</label>
+                        <label for="satTypeSelect" class="font-weight-light font-italic">Satellite Type <span class="text-danger font-italic">*</span></label>
                         <select multiple class="form-control" id="satTypeSelect">
                         <option>Amateur Radio</option>
                         <option>Beidou Navigation System</option>
@@ -89,10 +89,10 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <label for="input">Search by Location</label>
+                <label for="input" class="font-weight-light">Search by Location Name or Coordinates <span class="text-danger">*</span></label>
                 <div class="input-group">                       
-                    <input type="text" id ="userSearch" class="text-white form-control rounded-0" placeholder="Type Search Here...">
-                    <div class="input-group-append mt-2">
+                    <input type="text" id ="userSearch" class="text-white form-control rounded-0" placeholder="Type City Here...">
+                    <div class="input-group-append mt-3">
                         <input type="text" id ="latSearch" class="text-white form-control rounded-0" placeholder="Lattitude...">
                         <input type="text" id ="longSearch" class="text-white form-control rounded-0" placeholder="Longitude...">
                         <button id="submitBtn" type="button" class="btn btn-success" >Search</button>            
@@ -173,6 +173,16 @@
             <div id="weatherDisplay"></div>
         </div>  
         
+        <!-- Kevin's Maps Display -->
+        <div class="card">
+            <div id="mapsDisplay">
+                <div id="map"></div>     
+                <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw&callback=initMap">
+                </script>
+            </div>
+        </div>
+
         <!-- Alex's Wikipedia Display -->
         <div class="text-dark mt-3" id="wikiDisplay"></div>
         <div class="d-flex justify-content-end">
@@ -180,23 +190,6 @@
         </div>
         
     </div>
-
-    <!-- Kevin's Maps Display -->
-    <div id="mapsDisplay">
-      <div id="map"></div>
-     
-      <script async defer
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw&callback=initMap">
-      </script>
-
-    </div>
-
-
-
-
-    
-
-        
 
 </div>
 
