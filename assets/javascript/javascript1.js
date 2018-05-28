@@ -11,7 +11,6 @@ var topSearches=[];
 var prevSearches = [];
 var savedSearches =[];
 var topSearches=[];
-var temp = 'abc';
 
 $("#mapsBtn").hide();
 $("#satBtn").hide();
@@ -262,10 +261,7 @@ $("#submitBtn").on("click", function(){
 
 
         });
-
-
     
-
 
 });
 
@@ -519,7 +515,7 @@ $("#chooseDifferentSatBtn").off().on('click', function(){
             }
         }
 
-    })
+    });
 });
 
 //weather API
@@ -527,7 +523,7 @@ $(document).ready(function(){
 
 $("#likeBtn").hide();
 
-$("#submitBtn").on("click", function(){
+$("#submitBtn").on("click", function(weather){
     $("#likeBtn").show();
     $("#weatherDisplay").empty();
         var lattitude = $("#latSearch").val().trim();
@@ -576,11 +572,63 @@ $("#submitBtn").on("click", function(){
 
 });
 // Add favorites button
-$("#likeBtn").on("click", function(){
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAygHlgjQEfN6MoNgtiQCOd1cuXxKkwe5g",
+    authDomain: "group-project1-d4e5a.firebaseapp.com",
+    databaseURL: "https://group-project1-d4e5a.firebaseio.com",
+    projectId: "group-project1-d4e5a",
+    storageBucket: "",
+    messagingSenderId: "719288547326"
+  };
+  firebase.initializeApp(config);
+  var database = firebase.database();
+   // Button for adding favorites
+   $("#likeBtn").on("click", function(event) {
+    event.preventDefault();
+    // Grabs user input
+    var userInput = $("#userSearch").val().trim();
+    var latInput = $("#latSearch").val().trim();
+    var longInput = $("#longSearch").val().trim();
+    $("#userSearch").val("");
+    $("#latSearch").val("");
+    $("#longSearch").val("");
+    // Creates local "temporary" object for holding new search data
+    var newSatellite = {
+        city: userInput,
+        lattitude: latInput,
+        longitude: longInput,
+    };
+    database.ref().push(newSatellite);
+    console.log(newSatellite.userInput);
+    console.log(newSatellite.latInput);
+    console.log(newSatellite.longInput);
+   });
+    // 3. Create Firebase event for adding satellite to the database 
+    database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+    console.log(childSnapshot.val());   
+    // Store everything into a variable.
+    var userInput = childSnapshot.val().city;
+    var latInput = childSnapshot.val().lattitude;
+    var longInput = childSnapshot.val().longitude;
+    console.log(userInput);
+    console.log(latInput);
+    console.log(longInput);
+    // var link = $("<li>");
+    // $("<li>").addClass("addFav");
+    $(".content").append("<li class = 'addFav'>" + userInput + ", " + latInput + ", " + longInput + "</li>");
 
-
+    // var addLink = $("<a>");
+    // addLink.attr("href", "https://www.google.com/search?q=weather&oq=weather&aqs=chrome..69i57j69i60l2j69i59j69i60.4217j0j8&sourceid=chrome&ie=UTF-8");
+    // addLink.text(userInput);
+    // $(".content").append(addLink);
+    // $("a").on("click", function(){
+    //     $("#weatherDisplay").show();
+    // });
 });
-
+    $(".addFav").on("click", function(){
+        alert("hi");
+    });
 });
 
 
@@ -703,7 +751,4 @@ $(document).off().on('click', '.satSelectorBtn', function(){
         });
 
 }); 
-    
-    });
-    
-    
+});
