@@ -157,54 +157,21 @@ $(document).ready(function(){
                     //////////////////
                     //  WEATHER APP //
                     //////////////////
-
-                    function callWeatherApi(latSearch,longSearch, cityName){
-                        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + latSearch + "&lon=" + longSearch + "&appid=764202827fb596fa8957502051063c79" );
-                        $.ajax({
-                            url:queryURL,
-                            method:"GET",
-                        }).
-                        then(function(response){ 
-                            // $("#country").append(city);      
-                            var weatherInfo=$("<table>").addClass("table table-hover");
-                            //table head  
-                            var head = ["Date","Weather", "Clouds","Wind"];
-                            for (var j = 0; j < head.length; j++) {
-                                var tHead = $("<th>").text(head[j]);
-                                weatherInfo.append(tHead);
-                            }                     
-                            //table body
-                            for (var i = 0; i <= 32; i+= 8) {
-                               
-                                var date = $("<td>").text(response.list[i].dt_txt);
-                                    console.log("Date: " + response.list[i].dt_txt);  
-                                var weather = $("<td>").text(response.list[i].weather[0].description);
-                                    console.log("Local Weather is: " + response.list[i].weather[0].description);    
-                                var condition = $("<td>").text(response.list[i].clouds.all + "%");
-                                    console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
-                                var wind = $("<td>").text(response.list[i].wind.speed);
-                                    console.log(" The Wind is: " + response.list[i].wind.speed);
-                                var tBody = $("<tr>").append(date,weather,condition,wind);
-                                tBody.appendTo(weatherInfo);
-                                console.log(weatherInfo);
-                            }                       
-                            $("#weatherDisplay").html(weatherInfo);  
-                        });
-                    };                
-                    function printLocalFav(){
-                        var local_fav_array = localStorage.getItem("myFav");
-                        console.log(local_fav_array);
-                        if(local_fav_array){
-                            local_fav_array = JSON.parse(local_fav_array);
-                            console.log(local_fav_array.length);
-                            for(var i = 0; i < local_fav_array.length; i++){
-                                var city= local_fav_array[i].city;
-                                var lattitude = local_fav_array[i].lattitude;
-                                var longitude = local_fav_array[i].longitude;
-                                $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
-                            }
-                        }
-                    };
+              
+                    // function printLocalFav(){
+                    //     var local_fav_array = localStorage.getItem("myFav");
+                    //     console.log(local_fav_array);
+                    //     if(local_fav_array){
+                    //         local_fav_array = JSON.parse(local_fav_array);
+                    //         console.log(local_fav_array.length);
+                    //         for(var i = 0; i < local_fav_array.length; i++){
+                    //             var city= local_fav_array[i].city;
+                    //             var lattitude = local_fav_array[i].lattitude;
+                    //             var longitude = local_fav_array[i].longitude;
+                    //             $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
+                    //          }
+                        //  }
+                    }
                     $("#likeBtn").show();
                     $("#weatherDisplay").empty();
                     var lattitude = $("#latSearch").val().trim();
@@ -219,7 +186,7 @@ $(document).ready(function(){
                     // END OF WEATHER API //
                     ////////////////////////
 
-                }
+                // }
             });
         }
         //If user selects a satellite Type but no location
@@ -273,8 +240,42 @@ $("#satTypeSelectBtn").on("click", function(){
     });
     
     
-//weather API
-$(document).ready(function(){
+
+    var roll_positionGd = satellite.eciToGeodetic(roll_positionEci, roll_gmst);	+$(document).ready(function(){
+        var roll_longitude = roll_positionGd.longitude;	
+        var roll_latitude  = roll_positionGd.latitude;	
+            
+        var roll_longitudeStr = satellite.degreesLong(roll_longitude);	
+        var roll_latitudeStr  = satellite.degreesLat(roll_latitude);	
+        roll_LineCoord.push({lat: roll_latitudeStr, lng: roll_longitudeStr});	
+        });
+
+//drawing 	+    $("#likeBtn").hide();
+    var roll_satPath = new google.maps.Polyline({	
+            path: roll_LineCoord,	
+            geodesic: true,	
+            strokeColor: '#0000FF',	
+            strokeOpacity: .7,	
+            strokeWeight: 1	
+            });	
+        roll_satPath.setMap(map);	
+
+
+        //draw line between entry and exit	
+        var satPathCoordinates = [	
+            {lat: latitudeStr, lng: longitudeStr},	
+            {lat: exit_latitudeStr, lng: exit_longitudeStr},	
+        ];	
+        satPath = new google.maps.Polyline({	
+            path: satPathCoordinates,	
+            geodesic: true,	
+            strokeColor: '#FF0000',	
+            strokeOpacity: 1.0,	
+            strokeWeight: 2	
+        });	
+        satPath.setMap(map);	
+    });	
+    
 
     $("#likeBtn").hide();
 
@@ -304,8 +305,8 @@ $(document).ready(function(){
         // render our insideList favs to the page
         for (var i = 0; i < insideList.length; i++) {
           var p = $("<p>").text(insideList[i]);
-          var b = $("<button class='delete'>").text("x").attr("data-index", i);
-          p.prepend(b);
+        //   var b = $("<button class='delete'>").text("x").attr("data-index", i);
+        //   p.prepend(b);
           $("#myFav").prepend(p);
         }
       }
@@ -372,9 +373,43 @@ $(document).ready(function(){
     //     }
     // });
 
+    
+    function callWeatherApi(latSearch,longSearch, cityName){
+        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + latSearch + "&lon=" + longSearch + "&appid=764202827fb596fa8957502051063c79" );
+        $.ajax({
+            url:queryURL,
+            method:"GET",
+        }).
+        then(function(response){ 
+            // $("#country").append(city);      
+            var weatherInfo=$("<table>").addClass("table table-hover");
+            //table head  
+            var head = ["Date","Weather", "Clouds","Wind"];
+            for (var j = 0; j < head.length; j++) {
+                var tHead = $("<th>").text(head[j]);
+                weatherInfo.append(tHead);
+            }                     
+            //table body
+            for (var i = 0; i <= 32; i+= 8) {
+               
+                var date = $("<td>").text(response.list[i].dt_txt);
+                    console.log("Date: " + response.list[i].dt_txt);  
+                var weather = $("<td>").text(response.list[i].weather[0].description);
+                    console.log("Local Weather is: " + response.list[i].weather[0].description);    
+                var condition = $("<td>").text(response.list[i].clouds.all + "%");
+                    console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
+                var wind = $("<td>").text(response.list[i].wind.speed);
+                    console.log(" The Wind is: " + response.list[i].wind.speed);
+                var tBody = $("<tr>").append(date,weather,condition,wind);
+                tBody.appendTo(weatherInfo);
+                console.log(weatherInfo);
+            }                       
+            $("#weatherDisplay").html(weatherInfo);  
+        });
+    };  
     //Runs Search from Favorite Click    
-    $("#myFav").on("click", ".addFav", function(){
-        // alert("hi");
+    $("p").on("click", function(){
+         alert("hi");
         userSearch = $(this).attr("id");
         var data_string = $(this).text();
         var data_array = data_string.split(", ");
@@ -384,8 +419,9 @@ $(document).ready(function(){
         var longtitude = data_array[2];
         callWeatherApi(lattitude,longtitude,cityName);
         getWiki();
+        $("#weatherDisplay").show(); 
     });
-});
+
 
 
 //button that fires when user selects satellite
@@ -521,4 +557,5 @@ $(document).off().on('click', '.satSelectorBtn', function(){
     });
 
 }); 
-});
+
+
