@@ -619,7 +619,7 @@ function printLocalFav(){
             var city= local_fav_array[i].city;
             var lattitude = local_fav_array[i].lattitude;
             var longitude = local_fav_array[i].longitude;
-            $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + "</li>");
         }
     }
 }
@@ -669,7 +669,7 @@ $("#submitBtn").on("click", function(weather){
                 new_local_fav = [newSatellite];
             }
             localStorage.setItem("myFav", JSON.stringify(new_local_fav));
-            $("#myFav").append("<li class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+userInput+">" + userInput + "</li>");
         }
    });
 
