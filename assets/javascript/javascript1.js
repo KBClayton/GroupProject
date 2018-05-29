@@ -272,38 +272,95 @@ $(document).ready(function(){
         $("#whatsUp").css("display", "inherit");
     });
 
-    //Button for adding favorites
-    $("#likeBtn").on("click", function(event) {
-        event.preventDefault();
-        // Grabs user input
-        var userInput = $("#userSearch").val().trim();
-        var latInput = $("#latSearch").val().trim();
-        var longInput = $("#longSearch").val().trim();
-        var userInputId = userInput.replace(" ", "");
-        if(userInput && latInput && longInput){
-            $("#userSearch").val("");
-            $("#latSearch").val("");
-            $("#longSearch").val("");
-            // Creates local "temporary" object for holding new search data
-            var newSatellite = {
-                city: userInput,
-                lattitude: latInput,
-                longitude: longInput,
-            };
 
-            var new_local_fav = localStorage.getItem("myFav");
-            if(!new_local_fav){
-                new_local_fav.append(newSatellite);
-                console.log("yes");
-            }
-            else {
-                new_local_fav = [newSatellite];
-                console.log("no");
-            }
-            localStorage.setItem("myFav", JSON.stringify(new_local_fav));
-            $("#myFav").append("<li class = addFav" +"id="+userInputId+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
+    //local storage
+    var list = JSON.parse(localStorage.getItem("my-Fav"));
+    if (!Array.isArray(list)) {
+        list = [];
         }
-    });
+        function putOnPage() {
+
+        $("#myFav").empty(); // empties out the html
+  
+        var insideList = JSON.parse(localStorage.getItem("my-Fav"));
+  
+        // Checks to see if we have any favs in localStorage
+        // If we do, set the local insideList variable to our favs
+        // Otherwise set the local insideList variable to an empty array
+        if (!Array.isArray(insideList)) {
+          insideList = [];
+
+        }
+        // render our insideList favs to the page
+        for (var i = 0; i < insideList.length; i++) {
+          var p = $("<p>").text(insideList[i]);
+          var b = $("<button class='delete'>").text("x").attr("data-index", i);
+          p.prepend(b);
+          $("#myFav").prepend(p);
+        }
+      }
+      // render our favs on page load
+      putOnPage();
+      
+    $(document).on("click", "button.delete", function() {
+        var favlist = JSON.parse(localStorage.getItem("my-Fav"));
+        var currentIndex = $(this).attr("data-index");
+  
+        // Deletes the item marked for deletion
+        favlist.splice(currentIndex, 1);
+        list = favlist;
+  
+        localStorage.setItem("my-Fav", JSON.stringify(favlist));
+  
+        putOnPage();
+      });
+  
+      $("#likeBtn").on("click", function(event) {
+        event.preventDefault();
+        // Setting the input value to a variable and then clearing the input
+        var val = $("#userSearch").val();
+        $("#userSearch").val("");
+  
+        // Adding our new fav to our local list variable and adding it to local storage
+        list.push(val);
+        localStorage.setItem("my-Fav", JSON.stringify(list));
+  
+        putOnPage();
+      });
+
+
+    // Button for adding favorites
+    // $("#likeBtn").on("click", function(event) {
+    //     event.preventDefault();
+    //     // Grabs user input
+    //     var userInput = $("#userSearch").val().trim();
+    //     var latInput = $("#latSearch").val().trim();
+    //     var longInput = $("#longSearch").val().trim();
+    //     var userInputId = userInput.replace(" ", "");
+    //     if(userInput && latInput && longInput){
+    //         $("#userSearch").val("");
+    //         $("#latSearch").val("");
+    //         $("#longSearch").val("");
+    //         // Creates local "temporary" object for holding new search data
+    //         var newSatellite = {
+    //             city: userInput,
+    //             lattitude: latInput,
+    //             longitude: longInput,
+    //         };
+
+    //         var new_local_fav = JSON.parse(localStorage.getItem("myFav"));
+    //         if(!Array.isArray(new_local_fav)){
+    //             new_local_fav.push(newSatellite);
+    //             console.log("yes");
+    //         }
+    //         else {
+    //             new_local_fav = [newSatellite];
+    //             console.log("no");
+    //         }
+    //         localStorage.setItem("myFav", JSON.stringify(new_local_fav));
+    //         $("#myFav").prepend("<li class = addFav" +"id="+userInputId+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
+    //     }
+    // });
 
     //button that fires when user selects satellite
     $(document).off().on('click', '.satSelectorBtn', function(){
