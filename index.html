@@ -9,12 +9,10 @@
     
     <!-- jQuery Link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
     <!-- Moment Link -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
-
+    <!-- Firebase Link -->
     <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
-    <!-- <script src="assets/javascript/javascript1.js"></script> -->
     <!-- Sattelite orbital path calculator code -->
     <script src="assets/javascript/satellite.min.js"></script>
    
@@ -28,8 +26,9 @@
 </head>
 <body>
 
-
 <div class="container mt-0">
+    
+    <!-- Header Bar -->
     <div class="card bg-dark border border-white rounded-0 mb-3">
         <h1 class="mb-0 font-shadowLight border-bottom border-white text-center text-light">Satellites Search</h1>
         <div class="row text-center">
@@ -47,39 +46,43 @@
             </div>
         </div>
     </div>
-    <div class="card bg-dark">       
+    
+    <!-- Error Message Bar -->
+    <div class="errorClass text-danger font-italic text-center"></div>
+    
+    <!-- Search Bar -->
+    <div class="card bg-dark" id="searchBar">       
         <div class="row pt-2 pb-1 pl-1 pr-1">
+            <!-- Previous Searches -->
             <div class="col-12 col-sm-4 text-center">
                 <ul class="dropDown ">
                     <h6 class="text-center text-info"></h6>
                     <li class="test1">
                     <ul class="content">
-                        <li class="addFav">Austin</li>
-                        <li class="addFav">Munich</li>
-                        <li class="addFav">McAllen</li>
+                        <li class="">Austin</li>
+                        <li class="">Munich</li>
+                        <li class="">McAllen</li>
                     </ul>
                 </ul>
             </div>
+            <!-- Favorites -->
             <div class="col-12 col-sm-4 text-center">
-                <ul class="dropDown" id ="myFav">
-                    <h6 class="text-center text-info">My Favorites</h6>
-                    <!-- <li class="test1"> -->
-                    <!-- <ul id = "myFav"> -->
-                        <!-- <li class="addFav">link</li>                   -->
-                    <!-- </ul> -->
-                </ul>
+                <h6 class="text-center text-info" data-state="open" id="myFavDisplay">My Favorites</h6>
+                <ul class="dropDown" id ="myFav"></ul>
             </div>
+            <!-- Top Searches -->
             <div class="col-12 col-sm-4 text-center">
                 <ul class="dropDown">
                     <h6 class="text-center text-info"></h6>
                         <li class="test1">
                     <ul class="content">
-                        <li class="addFav">link                  
+                        <li class="">link                  
                     </ul>
                 </ul>
             </div>
         </div>
         <div class="border-bottom border-info mb-2"></div>
+        <!-- Satellite Select Scroll -->
         <div class="row p-3">
             <div class="col-sm-12 col-md-4">
                 <div class = "satTypeArea">
@@ -105,6 +108,7 @@
                     </div>
                 </div>
             </div>
+            <!-- User Input -->
             <div class="col-sm-12 col-md-8">
                 <label for="input" class="font-weight-light font-italic">Enter City or Coordinates <span class="text-danger">*</span></label>
                 <div class="input-group">                       
@@ -118,34 +122,33 @@
             </div>   
         </div>
     </div>
-    
-    <div class="errorClass text-danger text-center"></div>
-    
-    
 
-    <div class="card bg-dark p-3 mt-3">
+    <!-- Main Content Display -->
+    <div class="card bg-dark p-3 mt-3 mainDisplayCard">
         <div class="d-flex justify-content-between">
-            <h3 class="text-danger" id="country"></h3>             
+            <!-- City Name -->
+            <h3 class="text-danger" id="address"></h3>  
+            <!-- Add to Favorites Button -->
             <button id = "likeBtn" class="btn btn-info">Add to Favorites</button>
         </div>
         <div class="row mt-3 border-top border-bottom border-white text-center">            
+            <!-- Satellite Button -->
             <div class="col-4">               
                 <p id = "satBtn" class = "btn mb-0">Satellite</p>
             </div>
+            <!-- Maps Button -->
             <div class="col-4">
                 <p id = "mapsBtn" class = "btn mb-0">Map</p>
             </div>
+            <!-- Weather Button -->
             <div class="col-4">
                 <p id = "weathBtn" class = "btn mb-0">Weather</p>
             </div>
-            
         </div>
 
-
-        
-        <!-- Satellite DISPLAY 1 -->
-        <div class="card border-0 mt-3">    
-            <div class="text-dark" id="satelliteDisplay">
+        <!-- SATELLITE DISPLAY -->
+        <div class="card border-0 mt-3" id="satelliteDisplay">    
+            <div class="text-dark">
                 <div id="whatsUp">
                     <div class = "satTypeDisplay">
                         <!--bootstrap table with 5 columns-->
@@ -199,43 +202,46 @@
             </div>  
         </div>
             
-        <!-- Jiajong's Weather Display -->
+        <!-- WEATHER DISPLAY -->
         <div class="card text-dark mt-3">
             <!-- <h3 id = "country"></h3> -->
             <div id="weatherDisplay"></div>
         </div>  
         
-        <!-- Kevin's Maps Display -->
-        <div class="card">
-            <div id="mapsDisplay">
-                <div id="map"></div>     
-                <script async defer
-                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw&callback=initMap">
+        <!-- MAP DISPLAY -->
+        <div class="card" id="mapsDisplay">
+                <div id="map"></div>
+                <script>
+                      var init_location={lat: 30, lng: -97};
+                      var map;
+                      function initMap() {
+                         map = new google.maps.Map(document.getElementById('map'), {
+                          zoom: 3,
+                          center: init_location
+                        });
+                      }
                 </script>
-            </div>
+                <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw&callback=initMap"></script>
+    
         </div>
-
-        <!-- Alex's Wikipedia Display -->
-        <div class="text-dark mt-3" id="wikiDisplay"></div>
-        <div class="d-flex justify-content-end">
-            <button type="button" class=" mt-3 btn btn-danger btn-sm">Back to Search Page</button>
-        </div>
+        <!--End Kevin's Maps Display-->
         
-    </div>
 
-    <div class="row">
-        <div class="col-12">
+        <!-- WIKIPEDIA DISPLAY -->
+        <div class="text-dark mt-3" id="wikiDisplay"></div>
 
+        <!-- Back to Search Button -->
+        <div class="d-flex justify-content-end">
+            <button type="button" id="backToSearch" class=" mt-3 btn btn-danger btn-sm">Back to Search Page</button>
         </div>
     </div>
-
 </div>
 
-<!-- <p class="text-center footer">This App Was Created by Kevin Clayton, Jamie Reaves, Stacey Rong, and Alex Bruner</p> -->
+<p class="text-center">This App Was Created by Kevin Clayton, Jamie Reaves, Stacey Rong, and Alex Bruner</p>
 
-<script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
-    <script src="assets/javascript/javascript1.js"></script>
+    <script src="assets/javascript/mainFunctions.js"></script>
     <script src="assets/javascript/pagedisplay.js"></script>
+    <script src="assets/javascript/javascript1.js"></script>    
     <script src="assets/javascript/maps.js"></script>
 
 </body>
