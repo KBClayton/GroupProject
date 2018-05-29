@@ -15,7 +15,6 @@
     <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
     <!-- Sattelite orbital path calculator code -->
     <script src="assets/javascript/satellite.min.js"></script>
-   
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- CSS Page -->
@@ -159,7 +158,6 @@
                                 <th scope="col">Satellite Id</th>
                                 <th scope="col">Altitude</th>
                                 <th scope="col">Launch Date</th>
-                                <th scope="col"></th>
                             </tr>
                         </thead>
                         <!--table body, will hold data retrieved from API query-->
@@ -171,28 +169,90 @@
                     </div>
                 </div>        
                 <div id="satelliteInfo">
-                    <!--bootstrap table with 5 columns-->
-                    <table class="table table-bordered table-hover" id="passTable">
-                        <thead id="passTableHeader">
-                            <tr>
-                                <th scope="col">Pass</th>
-                                <th scope="col">Start Date</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">Initial Direction</th>
-                                <th scope="col">Initial Elevation</th>
-                                <th scope="col">Maximum El. Date</th>
-                                <th scope="col">Maximum El. Time</th>
-                                <th scope="col">Maximum Direction</th>
-                                <th scope="col">Maximum Elevation</th>
-                                <th scope="col">End Date</th>
-                                <th scope="col">End Time</th>
-                                <th scope="col">End Direction</th>
-                                <th scope="col">End Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from firebase-->
-                        <tbody id="passTableBody"></tbody>
-                    </table>  
+                    
+                    <div class="accordion" id="accordion">
+                        <div class="card">
+                          <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Initial Conditions
+                              </button>
+                            </h5>
+                          </div>
+                      
+                          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover" id="passTableStart">
+                                    <thead id="passTableStartHeader">
+                                        <tr>
+                                            <th scope="col">Pass</th>
+                                            <th scope="col">Start Date</th>
+                                            <th scope="col">Start Time</th>
+                                            <th scope="col">Initial Direction</th>
+                                            <th scope="col">Initial Elevation</th>
+                                        </tr>
+                                    </thead>
+                                    <!--table body, will hold data retrieved from api-->
+                                    <tbody id="passTableStartBody"></tbody>
+                                </table>  
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Conditions at Maximum Elevation
+                              </button>
+                            </h5>
+                          </div>
+                          <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover" id="passMaxTable">
+                                    <thead id="passMaxTableHeader">
+                                        <tr>
+                                            <th scope="col">Pass</th>
+                                            <th scope="col">Maximum El. Date</th>
+                                            <th scope="col">Maximum El. Time</th>
+                                            <th scope="col">Maximum Direction</th>
+                                            <th scope="col">Maximum Elevation</th>
+                                            </tr>
+                                    </thead>
+                                    <!--table body, will hold data retrieved from firebase-->
+                                    <tbody id="passMaxTableBody"></tbody>
+                                </table>  
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Final Conditions
+                              </button>
+                            </h5>
+                          </div>
+                          <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                            <div class="card-body">
+                                <table class="table table-bordered table-hover" id="passEndTable">
+                                    <thead id="passEndTableHeader">
+                                        <tr>
+                                            <th scope="col">Pass</th>
+                                            <th scope="col">End Date</th>
+                                            <th scope="col">End Time</th>
+                                            <th scope="col">End Direction</th>
+                                            <th scope="col">End Elevation</th>
+                                            </tr>
+                                    </thead>
+                                    <!--table body, will hold data retrieved from firebase-->
+                                    <tbody id="passEndTableBody"></tbody>
+                                </table>  
+                            </div>
+                          </div>
+                        </div-->
+                      </div>
+                      
+
                     <div class = "satInfoBtnHldr"></div>
                     <!--button to choose a different satellite-->
                     <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
@@ -239,10 +299,12 @@
 
 <p class="text-center">This App Was Created by Kevin Clayton, Jamie Reaves, Stacey Rong, and Alex Bruner</p>
 
+    
+    
     <script src="assets/javascript/mainFunctions.js"></script>
     <script src="assets/javascript/pagedisplay.js"></script>
     <script src="assets/javascript/javascript1.js"></script>    
     <script src="assets/javascript/maps.js"></script>
-
+    
 </body>
 </html>
