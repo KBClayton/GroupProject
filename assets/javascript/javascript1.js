@@ -44,12 +44,63 @@ var satID = "";
     $("#satBtn").hide();
     $("#weathBtn").hide();
 
+    function getWiki(){
+        var queryURLBasic =   ("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + userSearch +"&srwhat=text&srprop=timestamp&continue=&format=json");
+        $.ajax({
+            url:queryURLBasic,
+            method:"GET",
+            dataType: "JSONP",
+        }).
+            then(function(response){
+                // get the page Title
+                var pageTitle = response.query.search[0].title;
+                var pageid=response.query.search[0].pageid;
+                var queryURL = ("https://en.wikipedia.org/w/api.php?format=json&titles=" + pageTitle + "&action=query&prop=extracts&exsectionformat=plain&exintro=&explaintext=&");
+                
+                //Search by Title
+                $.ajax({
+                    url:queryURL,
+                    method:"GET",
+                    dataType: "JSONP",
+                }).
+                then(function(response){
+                    console.log(queryURL);
+                    // Display Info to Page
+                    var card=$("<div>");
+                        card.addClass("card bg-light mt-3 p-3 ");
+                    var title=$("<h5>");
+                        title.addClass("border-bottom font-weight-bold")
+                        title.text(response.query.pages[pageid].title);
+                    var paragraph=$("<p>");
+                        paragraph.addClass("sansSerif  p-1 rounded bg-light border border-dark anyClass");
+                        paragraph.text(response.query.pages[pageid].extract);
+                    var wikiLink=$("<a>");
+                        wikiLink.attr("href", 'https://en.wikipedia.org/wiki/' + response.query.pages[pageid].title);
+                        wikiLink.attr("target", "_blank");
+                        wikiLink.text("Wikipedia");
+                        card.append(title, paragraph, wikiLink);
+                        
+
+                    $("#wikiDisplay").html(card);
+                    userSearch="";
+                });
+            }); 
+    };
+
 $(document).ready(function(){
 
 $(".satTypeDisplay").css("display", "none");
 $("#satelliteInfo").css("display", "none");
 
 $("#submitBtn").off().on("click", function(){
+    if ($("#userSearch").val() == ""){
+        $(".errorClass").text("Please enter a valid city name...");
+    }
+    
+    else{
+
+    }
+    
     //Clear WikiDisplay
     $("#wikiDisplay").empty();    
         //Alex's Variables
@@ -318,7 +369,7 @@ $("#submitBtn").off().on("click", function(){
             });
 
 
-        });
+        }); //MAYBE THE END
     
 
 });
@@ -419,7 +470,6 @@ function callWeatherApi(lattitude,longtitude,cityName){
         $("#weatherDisplay").html(weatherInfo);  
         });
 
-
 }
 
 function printLocalFav(){
@@ -432,12 +482,10 @@ function printLocalFav(){
             var city= local_fav_array[i].city;
             var lattitude = local_fav_array[i].lattitude;
             var longitude = local_fav_array[i].longitude;
-            $("#myFav").append("<button class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</button>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
         }
     }
- 
 }
-
 //weather API
 $(document).ready(function(){
 
@@ -457,7 +505,6 @@ $("#submitBtn").on("click", function(weather){
 
 
 });
-// Add favorites button
 
    // Button for adding favorites
    $("#likeBtn").on("click", function(event) {
@@ -477,23 +524,22 @@ $("#submitBtn").on("click", function(weather){
                 longitude: longInput,
             };
 
-            var new_local_fav = localStorage.getItem("myFav") 
-            if(new_local_fav){
+            var new_local_fav = localStorage.getItem("myFav");
+            if(!new_local_fav){
                 new_local_fav.push(newSatellite);
-            }{
-                new_local_fav = [newSatellite]
+            }
+            else {
+                new_local_fav = [newSatellite];
             }
             localStorage.setItem("myFav", JSON.stringify(new_local_fav));
-            $("#myFav").append("<button class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</button>");
+            $("#myFav").append("<li class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
         }
    });
 
-    // $(".addFav").on("click", function(){
-    //     alert("hi");
-    // });
-
+   
     $("#myFav").on("click",".addFav",function(){
         // alert("hi");
+        userSearch = $(this).attr("id");
         var data_string = $(this).text();
         var data_array = data_string.split(", ");
         console.log("data_array="+data_array);
@@ -501,6 +547,8 @@ $("#submitBtn").on("click", function(weather){
         var lattitude = data_array[1];
         var longtitude = data_array[2];
         callWeatherApi(lattitude,longtitude,cityName);
+        getWiki();
+
     });
 });
 
