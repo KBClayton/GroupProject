@@ -195,9 +195,9 @@
         if(marker_array.length>0){
             mapobject.map_clear();
         }
-       // $("#whatsUp").css("display", "none");
-        $("#satelliteInfo").css("display", "none");
-        $("#weatherDisplay").css("display", "none");
+        // $("#whatsUp").css("display", "none");
+        // $("#satelliteInfo").css("display", "none");
+        // $("#weatherDisplay").css("display", "none");
         $("#map").css("display", "inline");
         mapobject.initial_map();
         mapobject.elevation();

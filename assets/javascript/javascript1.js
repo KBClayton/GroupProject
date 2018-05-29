@@ -93,6 +93,9 @@ $(".satTypeDisplay").css("display", "none");
 $("#satelliteInfo").css("display", "none");
 
 $("#submitBtn").off().on("click", function(){
+    $("#mapsDisplay").hide();
+    $("#satelliteDisplay").show();
+    $("#weatherDisplay").hide();
     if ($("#userSearch").val() == ""){
         $(".errorClass").text("Please enter a valid city name...");
     }
