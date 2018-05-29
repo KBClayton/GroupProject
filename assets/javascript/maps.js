@@ -62,6 +62,7 @@
                 var positionAndVelocity = satellite.propagate(satrec, starttime);
                 var positionEci = positionAndVelocity.position;
                 var velocityEci = positionAndVelocity.velocity;
+                console.log(starttime);
                 var gmst = satellite.gstime(starttime);
                 var positionGd = satellite.eciToGeodetic(positionEci, gmst);
                 var longitude = positionGd.longitude;
