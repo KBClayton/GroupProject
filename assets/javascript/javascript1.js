@@ -47,11 +47,6 @@ $(document).ready(function(){
             longSearch = $("#longSearch").val().trim();
             console.log("categoryId")
             
-            //initial display function
-            postSearchDisplay();
-            //Run WikiSearch Display
-            wikiSubmit();
-            //Jamie
             //Get Latitude and Longitude from Search
             var queryURLLatLong = ("https://maps.googleapis.com/maps/api/geocode/json?&address=" + userSearch + "&apikey=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw");
             $.ajax({
@@ -60,82 +55,171 @@ $(document).ready(function(){
                 dataType: "JSON",
             }).
             then(function(response){
-                latSearch = response.results[0].geometry.location.lat
-                longSearch = response.results[0].geometry.location.lng
-                $("#latSearch").val(latSearch);
-                $("#longSearch").val(longSearch);
-                $("#aboveTableBody").empty();
-                $("#address").text(response.results[0].formatted_address);
-                //variable to hold the type of satellite the user selects
-                var satType = $("#satTypeSelect").val().toString();
-                //loop to assign the appropriate satID
-                for (i=0; i < satIdArray.length; i++) {
-                    if (satType == satArray[i]) {
-                        categoryID = satIdArray[i];
-                    }
-                };
-                // console.log(satType);
-                // console.log(categoryID);
-                //set the location variables from the user input
-                latSearch = $("#latSearch").val().trim();
-                longSearch = $("#longSearch").val().trim();
-                //prevent a search if the user has not input location information
-                if (latSearch == "" || longSearch == ""){
-                    alert ("you must enter a latitude and longitude to continue.");
-                return;
+                //if location is not an actual location 
+                if (response.results[0] == undefined){
+                    // run error message
+                    $(".errorClass").text('"' + userSearch + '" is not a valid location');
                 }
-            
-                //what's up sat API query
-                var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
-                // console.log(queryURLwhatsUp)
-                //populate aboveArray with the satellites returned by the API query
-                $.ajax({
-                    url:queryURLwhatsUp,
-                    method:"GET",
-                    dataType: "JSON",
-                }).
-                then(function(response){
-                    aboveArray = [];
-                
-                    if (response.info.satcount == 0) {
-                        $(".satTypeArea").css("display", "inherit");
-                        $(".satTypeDisplay").css("display", "none");
-                        alert("There are currently no satellites of this type above your location. Please select another satellite type.");
-                        return;
-                    }
+                //if location is an actual location
+                else{
 
-                    //$(".satTypeArea").css("display", "none");
-                    $(".satTypeDisplay").css("display", "inherit");
-                    for (i=0; i<response.above.length; i++){
-                        aboveArray.push(response.above[i]);
-                    }
-                    //make table visible
-                    $("#aboveTable").css("display", "table"); 
-                    //if the length of aboveArray is less than 5, display all results
-                    if (aboveArray.length < 5){
-                        for(i=0; i<aboveArray.length; i++){
-                        //add table html with relevant satellite data to the table body
-                            $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-                            "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-                            "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-                            "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-                            "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-                            + aboveArray[i].satid + "' >Select Satellite</button></td></tr>");    
+                    //initial display function
+                    postSearchDisplay();
+                    //Run WikiSearch Display
+                    wikiSubmit();
+
+                    ///////////////////
+                    // SATELLITE APP //
+                    ///////////////////
+
+                    latSearch = response.results[0].geometry.location.lat                
+                    longSearch = response.results[0].geometry.location.lng
+                    $("#latSearch").val(latSearch);
+                    $("#longSearch").val(longSearch);
+                    $("#aboveTableBody").empty();
+                    $("#address").text(response.results[0].formatted_address);
+                    //variable to hold the type of satellite the user selects
+                    var satType = $("#satTypeSelect").val().toString();
+                    //loop to assign the appropriate satID
+                    for (i=0; i < satIdArray.length; i++) {
+                        if (satType == satArray[i]) {
+                            categoryID = satIdArray[i];
                         }
+                    };
+                    // console.log(satType);
+                    // console.log(categoryID);
+                    //set the location variables from the user input
+                    latSearch = $("#latSearch").val().trim();
+                    longSearch = $("#longSearch").val().trim();
+                    //prevent a search if the user has not input location information
+                    if (latSearch == "" || longSearch == ""){
+                        alert ("you must enter a latitude and longitude to continue.");
+                    return;
                     }
-                    //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
-                    else {
-                        for(i=0; i < 5; i++){
+                
+                    //what's up sat API query
+                    var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+                    console.log("whatsup: " + queryURLwhatsUp)
+                    //populate aboveArray with the satellites returned by the API query
+                    $.ajax({
+                        url:queryURLwhatsUp,
+                        method:"GET",
+                        dataType: "JSON",
+                    }).
+                    then(function(response){
+                        aboveArray = [];
+                    
+                        if (response.info.satcount == 0) {
+                            $(".satTypeArea").css("display", "inherit");
+                            $(".satTypeDisplay").css("display", "none");
+                            alert("There are currently no satellites of this type above your location. Please select another satellite type.");
+                            return;
+                        }
+
+                        //$(".satTypeArea").css("display", "none");
+                        $(".satTypeDisplay").css("display", "inherit");
+                        for (i=0; i<response.above.length; i++){
+                            aboveArray.push(response.above[i]);
+                        }
+                        //make table visible
+                        $("#aboveTable").css("display", "table"); 
+                        //if the length of aboveArray is less than 5, display all results
+                        if (aboveArray.length < 5){
+                            for(i=0; i<aboveArray.length; i++){
                             //add table html with relevant satellite data to the table body
-                            $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-                            "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-                            "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-                            "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-                            "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-                            + aboveArray[i].satid + "' >Select</button></td></tr>");            
+                                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                                "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                                + aboveArray[i].satid + "' >Select Satellite</button></td></tr>");    
+                            }
                         }
-                    }  
-                });
+                        //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
+                        else {
+                            for(i=0; i < 5; i++){
+                                //add table html with relevant satellite data to the table body
+                                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
+                                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                                "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                                + aboveArray[i].satid + "' >Select</button></td></tr>");            
+                            }
+                        }  
+                        
+                    });
+
+                    //////////////////////////
+                    // END OF SATELLITE APP //
+                    //////////////////////////
+
+                    //////////////////
+                    //  WEATHER APP //
+                    //////////////////
+
+                    function callWeatherApi(latSearch,longSearch, cityName){
+                        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + latSearch + "&lon=" + longSearch + "&appid=764202827fb596fa8957502051063c79" );
+                        $.ajax({
+                            url:queryURL,
+                            method:"GET",
+                        }).
+                        then(function(response){ 
+                            // $("#country").append(city);      
+                            var weatherInfo=$("<table>").addClass("table table-hover");
+                            //table head  
+                            var head = ["Date","Weather", "Clouds","Wind"];
+                            for (var j = 0; j < head.length; j++) {
+                                var tHead = $("<th>").text(head[j]);
+                                weatherInfo.append(tHead);
+                            }                     
+                            //table body
+                            for (var i = 0; i <= 32; i+= 8) {
+                               
+                                var date = $("<td>").text(response.list[i].dt_txt);
+                                    console.log("Date: " + response.list[i].dt_txt);  
+                                var weather = $("<td>").text(response.list[i].weather[0].description);
+                                    console.log("Local Weather is: " + response.list[i].weather[0].description);    
+                                var condition = $("<td>").text(response.list[i].clouds.all + "%");
+                                    console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
+                                var wind = $("<td>").text(response.list[i].wind.speed);
+                                    console.log(" The Wind is: " + response.list[i].wind.speed);
+                                var tBody = $("<tr>").append(date,weather,condition,wind);
+                                tBody.appendTo(weatherInfo);
+                                console.log(weatherInfo);
+                            }                       
+                            $("#weatherDisplay").html(weatherInfo);  
+                        });
+                    };                
+                    function printLocalFav(){
+                        var local_fav_array = localStorage.getItem("myFav");
+                        console.log(local_fav_array);
+                        if(local_fav_array){
+                            local_fav_array = JSON.parse(local_fav_array);
+                            console.log(local_fav_array.length);
+                            for(var i = 0; i < local_fav_array.length; i++){
+                                var city= local_fav_array[i].city;
+                                var lattitude = local_fav_array[i].lattitude;
+                                var longitude = local_fav_array[i].longitude;
+                                $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
+                            }
+                        }
+                    };
+                    $("#likeBtn").show();
+                    $("#weatherDisplay").empty();
+                    var lattitude = $("#latSearch").val().trim();
+                    var longtitude = $("#longSearch").val().trim();
+                    var cityName = $("#userSearch").val().trim();
+                    // var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + lattitude + "&lon=" + longtitude + "&appid=764202827fb596fa8957502051063c79" );
+                    // console.log(queryURL);
+                    callWeatherApi(lattitude,longtitude,cityName);
+                    printLocalFav();
+
+                    ////////////////////////
+                    // END OF WEATHER API //
+                    ////////////////////////
+
+                }
             });
         }
         //If user selects a satellite Type but no location
@@ -188,73 +272,16 @@ $("#satTypeSelectBtn").on("click", function(){
         $("#whatsUp").css("display", "inherit");
     });
     
-    function callWeatherApi(lattitude,longtitude, cityName){
-        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + lattitude + "&lon=" + longtitude + "&appid=764202827fb596fa8957502051063c79" );
-        $.ajax({
-            url:queryURL,
-            method:"GET",
-        }).
-        then(function(response){ 
-            $("#country").append(city);      
-            var weatherInfo=$("<table>").addClass("table table-hover");
-            //table head  
-            var head = ["Date","Weather", "Clouds","Wind"];
-            for (var j = 0; j < head.length; j++) {
-                var tHead = $("<th>").text(head[j]);
-                weatherInfo.append(tHead);
-            }
-     
-            //table body
-            for (var i = 0; i <= 32; i+= 8) {
-               
-                var date = $("<td>").text(response.list[i].dt_txt);
-                    console.log("Date: " + response.list[i].dt_txt);  
-                var weather = $("<td>").text(response.list[i].weather[0].description);
-                    console.log("Local Weather is: " + response.list[i].weather[0].description);    
-                var condition = $("<td>").text(response.list[i].clouds.all + "%");
-                    console.log(" The Cloud is: " + response.list[i].clouds.all + "%");
-                var wind = $("<td>").text(response.list[i].wind.speed);
-                    console.log(" The Wind is: " + response.list[i].wind.speed);
-                var tBody = $("<tr>").append(date,weather,condition,wind);
-                tBody.appendTo(weatherInfo);
-                console.log(weatherInfo);
-            }
-        
-            $("#weatherDisplay").html(weatherInfo);  
-        });
-
-    };
-
-    function printLocalFav(){
-        var local_fav_array = localStorage.getItem("myFav");
-        console.log(local_fav_array);
-        if(local_fav_array){
-            local_fav_array = JSON.parse(local_fav_array);
-            console.log(local_fav_array.length);
-            for(var i = 0; i < local_fav_array.length; i++){
-                var city= local_fav_array[i].city;
-                var lattitude = local_fav_array[i].lattitude;
-                var longitude = local_fav_array[i].longitude;
-                $("#myFav").append("<li class = 'addFav' " +"id="+city+">" + city + ", " + lattitude + ", " + longitude + "</li>");
-            }
-        }
-    }
+    
 //weather API
 $(document).ready(function(){
 
-    printLocalFav();
+   
 
     $("#likeBtn").hide();
 
     $("#submitBtn").on("click", function(weather){
-        $("#likeBtn").show();
-        $("#weatherDisplay").empty();
-        var lattitude = $("#latSearch").val().trim();
-        var longtitude = $("#longSearch").val().trim();
-        var cityName = $("#userSearch").val().trim();
-        // var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + lattitude + "&lon=" + longtitude + "&appid=764202827fb596fa8957502051063c79" );
-        // console.log(queryURL);
-        callWeatherApi(lattitude,longtitude,cityName);
+        
     });
 
     // Button for adding favorites
