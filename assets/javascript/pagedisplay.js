@@ -1,3 +1,5 @@
+$(".dropDown").hide();
+
 //Maps Button Show
 $("#mapsBtn").click(function(){
     $("#mapsDisplay").show();
@@ -20,11 +22,11 @@ $("#weathBtn").click(function(){
 $("#myFavDisplay").click(function(){
     var state = $(this).attr("data-state");
     if (state === "open"){
-        $(".dropDown").hide();
+        $(".dropDown").show();
         $(this).attr("data-state", "closed")
     }
     if (state === "closed"){
-        $(".dropDown").show();
+        $(".dropDown").hide();
         $(this).attr("data-state", "open")
     };
 });

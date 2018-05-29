@@ -37,10 +37,11 @@ $(document).ready(function(){
     //initial Display Function
     pageLoadDisplay();
 
-    //Submit Button Click Handler
-    $("#submitBtn").off().on("click", function(){
+    function mainFunction(){
         var userSearch = $("#userSearch").val().trim();
+        //If user enters a city and selects a satellite type
         if (userSearch != "" && $("#satTypeSelect").val() != ""){
+            //clear any current error message
             $(".errorClass").empty();
             latSearch = $("#latSearch").val().trim();
             longSearch = $("#longSearch").val().trim();
@@ -64,6 +65,7 @@ $(document).ready(function(){
                 $("#latSearch").val(latSearch);
                 $("#longSearch").val(longSearch);
                 $("#aboveTableBody").empty();
+                $("#address").text(response.results[0].formatted_address);
                 //variable to hold the type of satellite the user selects
                 var satType = $("#satTypeSelect").val().toString();
                 //loop to assign the appropriate satID
@@ -148,6 +150,11 @@ $(document).ready(function(){
         else{
             $(".errorClass").text("Please Enter Location and Select a Satellite Type");
         }
+    };
+
+    //Submit Button Click Handler
+    $("#submitBtn").off().on("click", function(){
+        mainFunction();
     });
 
 /*handles button click for finding satellites above user
@@ -181,15 +188,13 @@ $("#satTypeSelectBtn").on("click", function(){
         $("#whatsUp").css("display", "inherit");
     });
     
-    function callWeatherApi(lattitude,longtitude,   cityName){
+    function callWeatherApi(lattitude,longtitude, cityName){
         var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + lattitude + "&lon=" + longtitude + "&appid=764202827fb596fa8957502051063c79" );
         $.ajax({
             url:queryURL,
             method:"GET",
         }).
         then(function(response){ 
-            var city = $("#country").text(response.city.name);
-            console.log("The Country is: " + response.city.name);
             $("#country").append(city);      
             var weatherInfo=$("<table>").addClass("table table-hover");
             //table head  
