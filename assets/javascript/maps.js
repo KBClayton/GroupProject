@@ -22,6 +22,7 @@
     var marker_array=[];
     //elevation to get return from google elevation query
     var elevation=0;
+    var elevator;
     //End Clayton's variables
     //Start Clayton's Object
     var mapobject = {
@@ -37,16 +38,22 @@
             marker_array.push(observer_marker);
         },
         elevation: function(){
-            var elevationURL="https://maps.googleapis.com/maps/api/elevation/json?locations="+observer_location.lat+","+observer_location.lng+"&key=AIzaSyDoQLe8s7JUbTZ_ubXhGY4cUmLiNqWvQxw";
-            $.ajax({
-                url: elevationURL,
-                method: "GET"
-            }).then(function(response) {
-                elevation=response.elevation;
-            }).fail(function(err) {
-                console.log("Fail:  "+err);
-                throw err;
-            });
+            console.log("in elevation function with observer_location "+observer_location);
+            elevator = new google.maps.ElevationService;
+            elevator.getElevationForLocations({
+                'locations': [observer_location]
+              }, function(results, status) {
+                  console.log("In results with "+ results);
+                if (status === 'OK') {
+                  if (results[0]) {
+                        elevation=results[0].elevation;
+                  } else {
+                    console.log('No results found');
+                  }
+                } else {
+                  console.log('Elevation service failed due to: ' + status);
+                }
+              });
         },
         draw: function(){
             for(var i=0; i<passArray.length; i++ ){
@@ -62,8 +69,9 @@
                 var positionAndVelocity = satellite.propagate(satrec, starttime);
                 var positionEci = positionAndVelocity.position;
                 var velocityEci = positionAndVelocity.velocity;
-                console.log(starttime);
+                console.log("starttime: "+starttime);
                 var gmst = satellite.gstime(starttime);
+                console.log("gmst "+gmst);
                 var positionGd = satellite.eciToGeodetic(positionEci, gmst);
                 var longitude = positionGd.longitude;
                 var latitude  = positionGd.latitude;
@@ -187,11 +195,12 @@
         if(marker_array.length>0){
             mapobject.map_clear();
         }
-        $("#whatsUp").css("display", "none");
+       // $("#whatsUp").css("display", "none");
         $("#satelliteInfo").css("display", "none");
         $("#weatherDisplay").css("display", "none");
         $("#map").css("display", "inline");
         mapobject.initial_map();
+        mapobject.elevation();
         mapobject.draw();
     });
     //End Clayton's click handler
