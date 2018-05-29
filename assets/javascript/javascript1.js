@@ -650,6 +650,7 @@ $("#submitBtn").on("click", function(weather){
         var userInput = $("#userSearch").val().trim();
         var latInput = $("#latSearch").val().trim();
         var longInput = $("#longSearch").val().trim();
+        var userInputId = userInput.replace(" ", "");
         if(userInput && latInput && longInput){
             $("#userSearch").val("");
             $("#latSearch").val("");
@@ -663,18 +664,20 @@ $("#submitBtn").on("click", function(weather){
 
             var new_local_fav = localStorage.getItem("myFav");
             if(!new_local_fav){
-                new_local_fav.push(newSatellite);
+                new_local_fav.append(newSatellite);
+                console.log("yes");
             }
             else {
                 new_local_fav = [newSatellite];
+                console.log("no");
             }
             localStorage.setItem("myFav", JSON.stringify(new_local_fav));
-            $("#myFav").append("<li class = 'addFav' " +"id="+userInput+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
+            $("#myFav").append("<li class = addFav" +"id="+userInputId+">" + userInput + ", " + latInput + ", " + longInput + "</li>");
         }
    });
 
-   
-    $("#myFav").on("click",".addFav",function(){
+    //Runs Search from Favorite Click    
+    $("#myFav").on("click", ".addFav", function(){
         // alert("hi");
         userSearch = $(this).attr("id");
         var data_string = $(this).text();
