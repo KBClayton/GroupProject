@@ -134,24 +134,22 @@ $(document).ready(function(){
                         if (aboveArray.length < 5){
                             for(i=0; i<aboveArray.length; i++){
                             //add table html with relevant satellite data to the table body
-                                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-                                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-                                "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-                                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-                                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-                                + aboveArray[i].satid + "' >Select Satellite</button></td></tr>");    
-                            }
+                            $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                            + aboveArray[i].satid + "' >" + aboveArray[i].satname + "</button></td></th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                            "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                            "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                            "</td>");         
                         }
+                    }
                         //if the length of aboveArray is greater than or equal to 5, only show the first 5 results
                         else {
                             for(i=0; i < 5; i++){
                                 //add table html with relevant satellite data to the table body
-                                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'>" + aboveArray[i].satname + 
-                                "</th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
-                                "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
-                                "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
-                                "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
-                                + aboveArray[i].satid + "' >Select</button></td></tr>");            
+                                $("#aboveTableBody").append("<tr> <th scope='row' id='satelliteNames'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
+                            + aboveArray[i].satid + "' >" + aboveArray[i].satname + "</button></td></th> <td id='satelliteIDs'>" + aboveArray[i].satid + 
+                            "</td> <td id='altitudes'>"+ aboveArray[i].satalt + 
+                            "</td> <td id='launchDates'>" + moment(aboveArray[i].launchDate).format('MMMM Do YYYY') + 
+                            "</td>");            
                             }
                         }     
                     });
