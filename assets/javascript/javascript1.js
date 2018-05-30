@@ -85,6 +85,7 @@ $(document).ready(function(){
                     $("#longSearch").val(longSearch);
                     $("#aboveTableBody").empty();
                     $("#address").text(response.results[0].formatted_address);
+                    elevation=mapobject.elevation();
                     //variable to hold the type of satellite the user selects
                     var satType = satTypeSelect;
                     //loop to assign the appropriate satID
@@ -105,7 +106,7 @@ $(document).ready(function(){
                     }
                 
                     //what's up sat API query
-                    var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/0/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+                    var queryURLwhatsUp = ("https://www.n2yo.com/rest/v1/satellite/above/" + latSearch + "/" + longSearch + "/" + elevation + "/60/" + categoryID + "/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
                     console.log("whatsup: " + queryURLwhatsUp)
                     //populate aboveArray with the satellites returned by the API query
                     $.ajax({
@@ -376,7 +377,7 @@ $(document).ready(function(){
         //empty out pass table
         $("#passTableBody").empty();
         //visual passes sat API query
-        var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/0/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
+        var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/" + elevation + "/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
         console.log(queryURLvisPass);
         
         $.ajax({
