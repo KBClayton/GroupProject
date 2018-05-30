@@ -27,6 +27,7 @@
     var elevation=0;
     var elevator;
     //End Clayton's variables
+
     //Start Clayton's Object
     var mapobject = {
         initial_map: function(){
@@ -65,12 +66,12 @@
             if (mean_motion<1.0031 && 1.0021<mean_motion){
                 console.log("Probably geostationary or geosynchronous, map will be point or small line");
             }
+            //sattelite object ititalized with tle elements
+            var satrec = satellite.twoline2satrec(tle1, tle2);
+            //loop to build path between entry and exit points
             for(var i=0; i<passArray.length; i++ ){
                 startUTC=passArray[i].startUTC;
                 endUTC=passArray[i].endUTC;
-
-                //sattelite object ititalized with tle elements
-                var satrec = satellite.twoline2satrec(tle1, tle2);
                 //entry point code
                 var starttime=moment.utc(startUTC,'X').toDate();
                 console.log(starttime);
@@ -145,32 +146,32 @@
                 satPath.setMap(map);
                 marker_array.push(satPath);
             }   
-
+            //set time to draw orbit for
             setback_time=100;
             interval_time=5;
             if(10<=mean_motion){
                 setback_time=3600;
-                interval_time=8000;
+                interval_time=7.2;
             }
             if(4<mean_motion && mean_motion<10){
                 setback_time=36000;
-                interval_time=80;
+                interval_time=72;
             }
             if(2<mean_motion && mean_motion<=4){
-                setback_time=100000;
-                interval_time=500;
+                setback_time=180000;
+                interval_time=360;
             }
             if(1.4<=mean_motion && mean_motion<=2){
-                setback_time=10000;
-                interval_time=200;
+                setback_time=360000;
+                interval_time=720;
             }
             if(1.1<=mean_motion && mean_motion<1.4){
                 setback_time=9000000;
-                interval_time=10000;
+                interval_time=1800;
             }
             if(mean_motion<1.1){
-                setback_time=3600000;
-                interval_time=8000;
+                setback_time=360000;
+                interval_time=720;
             }
             //set up for orbital path data
             var roll_LineCoord=[];
@@ -209,7 +210,6 @@
             });
             marker_array.push(marker_roll_end);
             marker_roll_end.setMap(map);
-
             //drawing 
             roll_satPath = new google.maps.Polyline({
                 path: roll_LineCoord,
@@ -225,22 +225,19 @@
 
         },
         map_clear: function (){
-            for(var i=0; i<marker_array.length; i++){
-                marker_array[i].setMap(null)
+            if(marker_array.length>0){
+                for(var i=0; i<marker_array.length; i++){
+                    marker_array[i].setMap(null)
+                }
+                marker_array=[];
             }
-            marker_array=[];
         }        
     }
     //end Clayton's object
 
     //Start Clayton's click handler
     $("#mapsBtn").on('click', function(){
-        if(marker_array.length>0){
-            mapobject.map_clear();
-        }
-        // $("#whatsUp").css("display", "none");
-        // $("#satelliteInfo").css("display", "none");
-        // $("#weatherDisplay").css("display", "none");
+        mapobject.map_clear();
         $("#map").css("display", "inline");
         mapobject.initial_map();
         mapobject.elevation();
