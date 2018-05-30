@@ -62,7 +62,7 @@ $(document).ready(function(){
                 console.log("search worked")
                 if (response.results[0] == undefined){
                     // run error message
-                    $(".errorClass").text('"* ' + userSearch + '" is not a valid location *');
+                    $(".errorClass").text('* " ' + userSearch + '" is not a valid location *');
                 }
                 //if location is an actual location
                 else{
