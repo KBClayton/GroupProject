@@ -250,7 +250,7 @@ $(document).ready(function(){
     //Choose Different Sat Button 1
     $("#chooseDifferentSatTypeBtn1").off().on('click', function(){
         //hide #satelliteInfo
-        $(".satTypeDisplay").css("display", "none");
+        pageLoadDisplay();
         //display #whatsUp 
         $("#searchBar").show();
     });
@@ -265,6 +265,9 @@ $(document).ready(function(){
         $("#whatsUp").css("display", "inherit");
         //hide .satTypeDisplay
         $(".satTypeDisplay").css("display", "none");
+        pageLoadDisplay();
+        //display #whatsUp 
+        $("#searchBar").show();
     });
 
     //Choose Different Sat Button
