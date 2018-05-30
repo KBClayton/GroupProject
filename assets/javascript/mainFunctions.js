@@ -1,6 +1,5 @@
 //Wikipedia API from Search
 function wikiSubmit(){
-    console.log("wiki worked");
     var userSearch = $("#userSearch").val().trim();
     //Clear WikiDisplay
     $("#wikiDisplay").empty();
@@ -14,13 +13,13 @@ function wikiSubmit(){
         dataType: "JSONP",
     }).
     then(function(response){
-        console.log(response);
+        // console.log(response);
         // get the page Title
         var pageTitle = response.query.search[0].title;
         var pageid=response.query.search[0].pageid;
         var queryURL = ("https://en.wikipedia.org/w/api.php?format=json&titles=" + pageTitle + "&action=query&prop=extracts&exsectionformat=plain&exintro=&explaintext=&");
             
-        //Search by Title
+        //Search by Title to Get more indepth Data
         $.ajax({
             url:queryURL,
             method:"GET",
@@ -88,10 +87,13 @@ function getWiki(){
     }); 
 };
 //Wikipedia From Satellite
+var satWikiSearch;
 function satWiki(){
+    satWikiSearch = $(this).text().replace(" ", "%20");
     $("#wikiDisplay").empty();
-    userSearch="";
-    var queryURLBasic =   ("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + userSearch +"&srwhat=text&srprop=timestamp&continue=&format=json");
+    var queryURLBasic =   ("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=" + satWikiSearch +"&srwhat=text&srprop=timestamp&continue=&format=json");
+    console.log("wiki: " + queryURLBasic);
+    console.log("satWikiSearch: " + satWikiSearch)
     $.ajax({
         url:queryURLBasic,
         method:"GET",
@@ -99,6 +101,7 @@ function satWiki(){
     }).
     then(function(response){
         // get the page Title
+        console.log(response);
         var pageTitle = response.query.search[0].title;
         var pageid=response.query.search[0].pageid;
         var queryURL = ("https://en.wikipedia.org/w/api.php?format=json&titles=" + pageTitle + "&action=query&prop=extracts&exsectionformat=plain&exintro=&explaintext=&");        
@@ -129,3 +132,8 @@ function satWiki(){
         });
     }); 
 };
+
+
+$(".satSelectorBtn").on("click", function(){
+    $(this).text()
+});
