@@ -408,78 +408,90 @@ $(document).ready(function(){
             console.log("end UTC: " + lastUTC);
                 
             //create if/else statement to limit results to 5 objects
-            if (passArray.length < 5){
-                for(i=0; i<passArray.length; i++){
-                    //holds the pass number
-                    var passNumber = i + 1;
-                    //holds the local start date for each pass
-                    var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start time for each pass
-                    var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
-                    //holds the local end time for each pass
-                    var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start date for each pass
-                    var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
-                    //add table html with relevant satellite data to the table body
-                    var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start date for each pass
-                    var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
-                    //add table html with relevant satellite data to the table body
-                    $("#passTableBody").append("<tr> <th scope='row' id='pass numbers'>" + passNumber + 
-                    "</th> <td id='startDates'>" + localStartDate + 
-                    "</th> <td id='startTimes'>" + localStartTime + 
-                    "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
-                    "&deg; (" + response.passes[i].startAzCompass +
-                    ")</td> <td id='startEls'>" + response.passes[i].startEl +
-                    "&deg;</th> <td id='maxDates'>" + localMaxDate + 
-                    "</th> <td id='maxTimes'>" + localMaxTime +   
-                    "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
-                    "&deg; (" + response.passes[i].maxAzCompass + 
-                    ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
-                    "&deg;</th> <td id='endDates'>" + localEndDate + 
-                    "</th> <td id='endTimes'>" + localEndTime +   
-                    "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
-                    "&deg; (" + response.passes[i].endAzCompass + 
-                    ")</td> <td id='endEls'>" + response.passes[i].endEl +
-                    "&deg;</td></tr>");
-        
-                }
+        if (passArray.length < 5){
+            for(i=0; i<passArray.length; i++){
+                //holds the pass number
+                var passNumber = i + 1;
+                //holds the local start date for each pass
+                var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start time for each pass
+                var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
+                //holds the local end time for each pass
+                var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start date for each pass
+                var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
+                //add table html with relevant satellite data to the table body
+                var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start date for each pass
+                var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
+                //add table html with relevant satellite data to the table body
+                $("#passTableStartBody").append("<tr> <th scope='row' id='passStartnumbers'>" + passNumber + 
+                "</th> <td id='startDates'>" + localStartDate + 
+                "</td> <td id='startTimes'>" + localStartTime + 
+                "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
+                "&deg; (" + response.passes[i].startAzCompass +
+                ")</td> <td id='startEls'>" + response.passes[i].startEl +
+                "&deg;</td></tr>");
+
+                $("#passMaxTableBody").append("<tr> <th scope='row' id='passMaxnumbers'>" + passNumber +
+                "</th> <td id='maxDates'>" + localMaxDate + 
+                "</th> <td id='maxTimes'>" + localMaxTime +   
+                "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
+                "&deg; (" + response.passes[i].maxAzCompass + 
+                ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
+                "&deg;</td></tr>");
+                
+                $("#passEndTableBody").append("<tr> <th scope='row' id='passEndnumbers'>" + passNumber +
+                "</th> <td id='endDates'>" + localEndDate + 
+                "</th> <td id='endTimes'>" + localEndTime +   
+                "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
+                "&deg; (" + response.passes[i].endAzCompass + 
+                ")</td> <td id='endEls'>" + response.passes[i].endEl +
+                "&deg;</td></tr>");
+    
             }
-            //for satellites where passArray length >= 5, only display 5 results  
-            else {
-                for(i=0; i < 5; i++){
-                    //holds the pass number
-                    var passNumber = i + 1;
-                    //holds the local start date for each pass
-                    var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start time for each pass
-                    var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
-                    //holds the local end time for each pass
-                    var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start date for each pass
-                    var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
-                    //add table html with relevant satellite data to the table body
-                    var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
-                    //holds the local start date for each pass
-                    var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
-                    //add table html with relevant satellite data to the table body
-                    $("#passTableBody").append("<tr> <th scope='row' id='pass numbers'>" + passNumber + 
-                    "</th> <td id='startDates'>" + localStartDate + 
-                    "</th> <td id='startTimes'>" + localStartTime + 
-                    "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
-                    "&deg; (" + response.passes[i].startAzCompass +
-                    ")</td> <td id='startEls'>" + response.passes[i].startEl +
-                    "&deg;</th> <td id='maxDates'>" + localMaxDate + 
-                    "</th> <td id='maxTimes'>" + localMaxTime +   
-                    "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
-                    "&deg; (" + response.passes[i].maxAzCompass + 
-                    ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
-                    "&deg;</th> <td id='endDates'>" + localEndDate + 
-                    "</th> <td id='endTimes'>" + localEndTime +   
-                    "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
-                    "&deg; (" + response.passes[i].endAzCompass + 
-                    ")</td> <td id='endEls'>" + response.passes[i].endEl +
-                    "&deg;</td></tr>");
+        }
+        //for satellites where passArray length >= 5, only display 5 results  
+        else {
+            for(i=0; i < 5; i++){
+                //holds the pass number
+                var passNumber = i + 1;
+                //holds the local start date for each pass
+                var localStartDate = moment.utc(response.passes[i].startUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start time for each pass
+                var localStartTime = moment.utc(response.passes[i].startUTC, 'X').local().format('h:mm:ss a');
+                //holds the local end time for each pass
+                var localEndDate = moment.utc(response.passes[i].endUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start date for each pass
+                var localEndTime = moment.utc(response.passes[i].endUTC, 'X').local().format('h:mm:ss a');
+                //add table html with relevant satellite data to the table body
+                var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
+                //holds the local start date for each pass
+                var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
+                //add table html with relevant satellite data to the table body
+                $("#passTableStartBody").append("<tr> <th scope='row' id='passStartnumbers'>" + passNumber + 
+                "</th> <td id='startDates'>" + localStartDate + 
+                "</td> <td id='startTimes'>" + localStartTime + 
+                "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
+                "&deg; (" + response.passes[i].startAzCompass +
+                ")</td> <td id='startEls'>" + response.passes[i].startEl +
+                "&deg;</td></tr>");
+
+                $("#passMaxTableBody").append("<tr> <th scope='row' id='passMaxnumbers'>" + passNumber +
+                "</th> <td id='maxDates'>" + localMaxDate + 
+                "</th> <td id='maxTimes'>" + localMaxTime +   
+                "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
+                "&deg; (" + response.passes[i].maxAzCompass + 
+                ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
+                "&deg;</td></tr>");
+                
+                $("#passEndTableBody").append("<tr> <th scope='row' id='passEndnumbers'>" + passNumber +
+                "</th> <td id='endDates'>" + localEndDate + 
+                "</th> <td id='endTimes'>" + localEndTime +   
+                "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
+                "&deg; (" + response.passes[i].endAzCompass + 
+                ")</td> <td id='endEls'>" + response.passes[i].endEl +
+                "&deg;</td></tr>");
             
                 } 
             } 
