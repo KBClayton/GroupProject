@@ -297,8 +297,8 @@ $(document).ready(function(){
         // render our insideList favs to the page
         for (var i = 0; i < insideList.length; i++) {
           var p = $("<p>").text(insideList[i]);
-          var b = $("<button class='delete'>").text("x").attr("data-index", i);
-          p.prepend(b);
+        //   var b = $("<button class='delete'>").text("x").attr("data-index", i);
+        //   p.prepend(b);
           $("#myFav").prepend(p);
         }
     }
@@ -306,18 +306,18 @@ $(document).ready(function(){
     putOnPage();
     
     //Delete Button Button
-    $(document).on("click", "button.delete", function() {
-        var favlist = JSON.parse(localStorage.getItem("my-Fav"));
-        var currentIndex = $(this).attr("data-index");
+    // $(document).on("click", "button.delete", function() {
+    //     var favlist = JSON.parse(localStorage.getItem("my-Fav"));
+    //     var currentIndex = $(this).attr("data-index");
   
-        // Deletes the item marked for deletion
-        favlist.splice(currentIndex, 1);
-        list = favlist;
+    //     // Deletes the item marked for deletion
+    //     favlist.splice(currentIndex, 1);
+    //     list = favlist;
   
-        localStorage.setItem("my-Fav", JSON.stringify(favlist));
+    //     localStorage.setItem("my-Fav", JSON.stringify(favlist));
   
-        putOnPage();
-    });
+    //     putOnPage();
+    // });
   
     //Add to Favorites Button
     $("#likeBtn").on("click", function(event) {
@@ -513,16 +513,23 @@ $(document).ready(function(){
     });
 
     //My Favorites Button
-    $("#myFav").on("click", ".addFav", function(){
+    $("#myFav").on("click", "p", function(){
         // alert("hi");
-        userSearch = $(this).attr("id");
+        userSearch = $(this).text();
         var data_string = $(this).text();
         var data_array = data_string.split(", ");
         console.log("data_array="+data_array);
         var cityName = data_array[0];
         var lattitude = data_array[1];
         var longtitude = data_array[2];
-        callWeatherApi(lattitude,longtitude,cityName);
+        // callWeatherApi(lattitude,longtitude,cityName);
+        // $("#weatherDisplay").show();
+        // $(".mainDisplayCard").show();
+        // $(".satTypeDisplay").show();
+        // $("#satelliteInfo").show();
+        postSearchDisplay();
+        satTypeSelect = "Global Positioning System (GPS)";
+        mainFunction();
         getWiki();
     });
 
