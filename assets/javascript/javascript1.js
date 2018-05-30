@@ -163,7 +163,7 @@ $(document).ready(function(){
                     //////////////////
 
                     function callWeatherApi(latSearch,longSearch, cityName){
-                        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&lat=" + latSearch + "&lon=" + longSearch + "&appid=764202827fb596fa8957502051063c79" );
+                        var queryURL = ("https://api.openweathermap.org/data/2.5/forecast?q=" + "&lat=" + latSearch + "&lon=" + longSearch + "&appid=764202827fb596fa8957502051063c79" );
                         $.ajax({
                             url:queryURL,
                             method:"GET",
