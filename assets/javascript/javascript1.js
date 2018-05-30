@@ -1,7 +1,8 @@
 //GLOBAL VARIABLES
 
     //user Search Variable
-    var userSearch = $("#userSearch").val().trim();
+    var userSearch;
+    var satTypeSelect;
     //holds array of previous satellite searches
     var prevSearches = [];
     //holds array of saved satellite searches
@@ -37,10 +38,12 @@ $(document).ready(function(){
     //initial Display Function
     pageLoadDisplay();
 
+    // var satTypeSelect = $("#satTypeSelect").val();
     function mainFunction(){
-        var userSearch = $("#userSearch").val().trim();
+        console.log(userSearch);
+        console.log(satTypeSelect);
         //If user enters a city and selects a satellite type
-        if (userSearch != "" && $("#satTypeSelect").val() != ""){
+        if (userSearch != "" && satTypeSelect != ""){
             //clear any current error message
             $(".errorClass").empty();
             latSearch = $("#latSearch").val().trim();
@@ -56,6 +59,7 @@ $(document).ready(function(){
             }).
             then(function(response){
                 //if location is not an actual location 
+                console.log("search worked")
                 if (response.results[0] == undefined){
                     // run error message
                     $(".errorClass").text('"' + userSearch + '" is not a valid location');
@@ -69,7 +73,7 @@ $(document).ready(function(){
                     wikiSubmit();
                     //set Like Button attr userSearch
                     $("#likeBtn").attr("data-address", userSearch);
-                    $("#likeBtn").attr("data-selector-id", $("#satTypeSelect").val());
+                    $("#likeBtn").attr("data-selector-id", satTypeSelect);
 
                     ///////////////////
                     // SATELLITE APP //
@@ -82,7 +86,7 @@ $(document).ready(function(){
                     $("#aboveTableBody").empty();
                     $("#address").text(response.results[0].formatted_address);
                     //variable to hold the type of satellite the user selects
-                    var satType = $("#satTypeSelect").val().toString();
+                    var satType = satTypeSelect;
                     //loop to assign the appropriate satID
                     for (i=0; i < satIdArray.length; i++) {
                         if (satType == satArray[i]) {
@@ -149,8 +153,7 @@ $(document).ready(function(){
                                 "</td> <td id='launchDates'><button type='input' class='btn btn-primary rounded satSelectorBtn' value='"
                                 + aboveArray[i].satid + "' >Select</button></td></tr>");            
                             }
-                        }  
-                        
+                        }     
                     });
 
                     //////////////////////////
@@ -226,11 +229,11 @@ $(document).ready(function(){
             });
         }
         //If user selects a satellite Type but no location
-        else if (userSearch != "" && $("#satTypeSelect").val() == ""){
+        else if (userSearch != "" && satTypeSelect == ""){
             $(".errorClass").text("Please Select A Satellite Type");
         }
         //If user selects a location but no satellite type
-        else if (userSearch == "" && $("#satTypeSelect").val() != ""){
+        else if (userSearch == "" && satTypeSelect != ""){
             $(".errorClass").text("Please Enter A Location");
         }
         //If user doesn't enter a location or satellite type
@@ -241,6 +244,8 @@ $(document).ready(function(){
 
     //Submit Button
     $("#submitBtn").off().on("click", function(){
+        userSearch = $("#userSearch").val().trim();
+        satTypeSelect = $("#satTypeSelect").val();
         mainFunction();
     });
 
@@ -273,7 +278,7 @@ $(document).ready(function(){
     });
 
 
-    //local storage
+    //local storage for Favorite Searches
     var list = JSON.parse(localStorage.getItem("my-Fav"));
     if (!Array.isArray(list)) {
         list = [];
@@ -298,10 +303,11 @@ $(document).ready(function(){
           p.prepend(b);
           $("#myFav").prepend(p);
         }
-      }
-      // render our favs on page load
-      putOnPage();
-      
+    }
+    // render our favs on page load
+    putOnPage();
+    
+    //Delete Button Button
     $(document).on("click", "button.delete", function() {
         var favlist = JSON.parse(localStorage.getItem("my-Fav"));
         var currentIndex = $(this).attr("data-index");
@@ -313,9 +319,10 @@ $(document).ready(function(){
         localStorage.setItem("my-Fav", JSON.stringify(favlist));
   
         putOnPage();
-      });
+    });
   
-      $("#likeBtn").on("click", function(event) {
+    //Add to Favorites Button
+    $("#likeBtn").on("click", function(event) {
         event.preventDefault();
         // Setting the input value to a variable and then clearing the input
         var val = $("#userSearch").val();
@@ -323,10 +330,9 @@ $(document).ready(function(){
   
         // Adding our new fav to our local list variable and adding it to local storage
         list.push(val);
-        localStorage.setItem("my-Fav", JSON.stringify(list));
-  
+        localStorage.setItem("my-Fav", JSON.stringify(list)); 
         putOnPage();
-      });
+    });
 
 
     // Button for adding favorites
