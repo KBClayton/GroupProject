@@ -1,22 +1,23 @@
 $(".dropDown").hide();
-
+$("#latSearch").hide();
+$("#longSearch").hide();
 //Maps Button Show
 $("#mapsBtn").click(function(){
     $("#mapsDisplay").show();
     $("#satelliteDisplay").hide();
-    $("#weatherDisplay").hide();
+    $(".weatherCard").hide();
 });
 //Satellite Button Show
 $("#satBtn").click(function(){
     $("#mapsDisplay").hide();
     $("#satelliteDisplay").show();
-    $("#weatherDisplay").hide();
+    $(".weatherCard").hide();
 });
 //Weather Button Show
 $("#weathBtn").click(function(){
     $("#mapsDisplay").hide();
     $("#satelliteDisplay").hide();
-    $("#weatherDisplay").show();
+    $(".weatherCard").show();
 });
 //Opens or Closes Favorites Tab
 $("#myFavDisplay").click(function(){
@@ -45,7 +46,7 @@ function pageLoadDisplay(){
 function postSearchDisplay(){
     $("#mapsDisplay").hide();
     $("#satelliteDisplay").show();
-    $("#weatherDisplay").hide();
+    $(".weatherCard").hide();
     $(".mainDisplayCard").show();
     $(".satTypeDisplay").hide();
     $("#satelliteInfo").hide();
