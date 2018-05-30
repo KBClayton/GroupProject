@@ -129,18 +129,18 @@
             <!-- Add to Favorites Button -->
             <button id = "likeBtn" class="btn btn-info">Add to Favorites</button>
         </div>
-        <div class="row mt-3 border-top border-bottom border-white text-center">            
+        <div class="row mt-3 border-top  border-white text-center">            
             <!-- Satellite Button -->
-            <div class="col-4">               
-                <p id = "satBtn" class = "btn mb-0">Satellite</p>
+            <div id = "satBtn"class="col-4 border border-left-0 border-white">               
+                <p class = "btn mb-0">Satellite</p>
             </div>
             <!-- Maps Button -->
-            <div class="col-4">
-                <p id = "mapsBtn" class = "btn mb-0">Map</p>
+            <div id = "mapsBtn" class="col-4 border border-white">
+                <p class = "btn mb-0">Map</p>
             </div>
             <!-- Weather Button -->
-            <div class="col-4">
-                <p id = "weathBtn" class = "btn mb-0">Weather</p>
+            <div id = "weathBtn" class="col-4 border border-right-0 border-white">
+                <p class = "btn mb-0">Weather</p>
             </div>
         </div>
 
@@ -187,7 +187,7 @@
         </div>  
         
         <!-- MAP DISPLAY -->
-        <div class="card" id="mapsDisplay">
+        <div class="card mt-3" id="mapsDisplay">
                 <div id="map"></div>
                 <script>
                       var init_location={lat: 30, lng: -97};
