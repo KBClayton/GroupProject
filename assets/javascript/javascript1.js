@@ -252,7 +252,7 @@ $(document).ready(function(){
         //hide #satelliteInfo
         $(".satTypeDisplay").css("display", "none");
         //display #whatsUp 
-        $(".satTypeArea").css("display", "inherit");
+        $("#searchBar").show();
     });
 
     //Choose Differnt Sat Button 2
