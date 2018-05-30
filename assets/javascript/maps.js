@@ -4,6 +4,8 @@
     var observer_location = {lat: 30, lng: -97};
     //tlestring needs to be the tle response from the n2yo tle search api (response.tle)
     //var tlestring="1 25544U 98067A   18138.88883277 +.00001406 +00000-0 +28541-4 0  9997\r\n2 25544 051.6394 164.7606 0004002 099.1102 320.7609 15.54070224113965";
+    //tle element used to describe the average movement per day, geostationary is 1.0027
+    var mean_motion=1.01;
     //startUTC and endUTC are from pass data from n2yo pass (visual or radio) search api (response.passes[0].startUTC and response.passes[0].endUTC)
     var startUTC=1526901635;
     var endUTC=1526902240;
@@ -15,7 +17,6 @@
     //map variables so they can be reached globally
     var marker_roll_start;
     var marker_roll_start_pos;
-    var mean_motion=100.01;
     var marker_roll_end;
     var marker_roll_end_pos;
     var observer_marker;
@@ -147,8 +148,8 @@
                 marker_array.push(satPath);
             }   
             //set time to draw orbit for
-            setback_time=100;
-            interval_time=5;
+            setback_time=100.1;
+            interval_time=5.1;
             if(10<=mean_motion){
                 setback_time=3600;
                 interval_time=7.2;
