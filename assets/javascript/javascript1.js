@@ -35,6 +35,7 @@
 
 $(document).ready(function(){
 
+   
     //initial Display Function
     pageLoadDisplay();
 
@@ -279,6 +280,8 @@ $(document).ready(function(){
     });
 
 
+    //Choose Different Sat Button
+    
     //local storage for Favorite Searches
     var list = JSON.parse(localStorage.getItem("my-Fav"));
     if (!Array.isArray(list)) {
@@ -374,7 +377,12 @@ $(document).ready(function(){
         //save button value (which was set to the satellite id)
         satID = $(this).val();
         //empty out pass table
-        $("#passTableBody").empty();
+        $("#passTable1Body").empty();
+        $("#passTable2Body").empty();
+        $("#passTable3Body").empty();
+        $("#passTable4Body").empty();
+        $("#passTable5Body").empty();
+        $("#passButtonHolder").empty();
         //visual passes sat API query
         var queryURLvisPass = ("https://www.n2yo.com/rest/v1/satellite/visualpasses/" + satID + "/" + latSearch + "/" + longSearch + "/" + elevation + "/10/300/&apiKey=E5EU4L-JJT928-8ES55V-3TC6");
         console.log(queryURLvisPass);
@@ -412,6 +420,7 @@ $(document).ready(function(){
                 //create if/else statement to limit results to 5 objects
                 if (passArray.length < 5){
                     for(i=0; i<passArray.length; i++){
+                        
                         //holds the pass number
                         var passNumber = i + 1;
                         //holds the local start date for each pass
@@ -426,30 +435,31 @@ $(document).ready(function(){
                         var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
                         //holds the local start date for each pass
                         var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
+                        //add a button for each pass table
+                        $("#passButtonHolder").append("<button type='input' class='btn btn-primary rounded' id='passButton"
+                        + passNumber + "' > pass " + passNumber + "</button>");
                         //add table html with relevant satellite data to the table body
-                        $("#passTableStartBody").append("<tr> <th scope='row' id='passStartnumbers'>" + passNumber + 
-                        "</th> <td id='startDates'>" + localStartDate + 
+                        $("#passTable"+ passNumber +"Body").append("<tr> <th scope='row' id='passStart'>Start of Pass</th> <td id='startDates'>" + localStartDate + 
                         "</td> <td id='startTimes'>" + localStartTime + 
                         "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
                         "&deg; (" + response.passes[i].startAzCompass +
                         ")</td> <td id='startEls'>" + response.passes[i].startEl +
-                        "&deg;</td></tr>");
-
-                        $("#passMaxTableBody").append("<tr> <th scope='row' id='passMaxnumbers'>" + passNumber +
-                        "</th> <td id='maxDates'>" + localMaxDate + 
+                        "&deg;</td></tr> <tr> <th scope='row' id='passMaxnumbers'>Maximum Elevation</th> <td id='maxDates'>" + localMaxDate + 
                         "</th> <td id='maxTimes'>" + localMaxTime +   
                         "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
                         "&deg; (" + response.passes[i].maxAzCompass + 
                         ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
-                        "&deg;</td></tr>");
-                        
-                        $("#passEndTableBody").append("<tr> <th scope='row' id='passEndnumbers'>" + passNumber +
-                        "</th> <td id='endDates'>" + localEndDate + 
+                        "&deg;</td></tr> <tr> <th scope='row' id='passEndnumbers'>End of Pass</th> <td id='endDates'>" + localEndDate + 
                         "</th> <td id='endTimes'>" + localEndTime +   
                         "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
                         "&deg; (" + response.passes[i].endAzCompass + 
                         ")</td> <td id='endEls'>" + response.passes[i].endEl +
                         "&deg;</td></tr>");
+                        $("#passTable1").show();
+                        $("#passTable2").hide();
+                        $("#passTable3").hide();
+                        $("#passTable4").hide();
+                        $("#passTable5").hide();
             
                     }
                 }
@@ -470,31 +480,31 @@ $(document).ready(function(){
                         var localMaxDate = moment.utc(response.passes[i].maxUTC, 'X').local().format('dddd MMMM Do YYYY');
                         //holds the local start date for each pass
                         var localMaxTime = moment.utc(response.passes[i].maxUTC, 'X').local().format('h:mm:ss a');
+                        //add a button for each pass table
+                        $("#passButtonHolder").append("<button type='input' class='btn btn-primary rounded' id='passButton"
+                        + passNumber + "' >pass " + passNumber + "</button>");
                         //add table html with relevant satellite data to the table body
-                        $("#passTableStartBody").append("<tr> <th scope='row' id='passStartnumbers'>" + passNumber + 
-                        "</th> <td id='startDates'>" + localStartDate + 
+                        $("#passTable"+ passNumber +"Body").append("<tr> <th scope='row' id='passStart'>Start</th> <td id='startDates'>" + localStartDate + 
                         "</td> <td id='startTimes'>" + localStartTime + 
                         "</td> <td id='startCoordinates'>" + response.passes[i].startAz + 
                         "&deg; (" + response.passes[i].startAzCompass +
                         ")</td> <td id='startEls'>" + response.passes[i].startEl +
-                        "&deg;</td></tr>");
-
-                        $("#passMaxTableBody").append("<tr> <th scope='row' id='passMaxnumbers'>" + passNumber +
-                        "</th> <td id='maxDates'>" + localMaxDate + 
+                        "&deg;</td></tr> <tr> <th scope='row' id='passMaxnumbers'>Maximum Elevation</th> <td id='maxDates'>" + localMaxDate + 
                         "</th> <td id='maxTimes'>" + localMaxTime +   
                         "</td> <td id='endCoordinates'>" + response.passes[i].maxAz + 
                         "&deg; (" + response.passes[i].maxAzCompass + 
                         ")</td> <td id='maxEls'>" + response.passes[i].maxEl +  
-                        "&deg;</td></tr>");
-                        
-                        $("#passEndTableBody").append("<tr> <th scope='row' id='passEndnumbers'>" + passNumber +
-                        "</th> <td id='endDates'>" + localEndDate + 
+                        "&deg;</td></tr> <tr> <th scope='row' id='passEndnumbers'>End</th> <td id='endDates'>" + localEndDate + 
                         "</th> <td id='endTimes'>" + localEndTime +   
                         "</td> <td id='endCoordinates'>" + response.passes[i].endAz + 
                         "&deg; (" + response.passes[i].endAzCompass + 
                         ")</td> <td id='endEls'>" + response.passes[i].endEl +
                         "&deg;</td></tr>");
-                    
+                        $("#passTable1").show();
+                        $("#passTable2").hide();
+                        $("#passTable3").hide();
+                        $("#passTable4").hide();
+                        $("#passTable5").hide();
                     } 
                 } 
 
@@ -514,8 +524,11 @@ $(document).ready(function(){
         });
             
         
+       
 
     });
+
+   
 
     //My Favorites Button
     $("#myFav").on("click", "p", function(){
@@ -537,6 +550,46 @@ $(document).ready(function(){
         mainFunction();
         getWiki();
     });
+    //hide and show appropriate tables when the corresponding buttons are pushed
+    $(document).on('click', '#passButton1', function() {
+        $("#passTable1").show();
+        $("#passTable2").hide();
+        $("#passTable3").hide();
+        $("#passTable4").hide();
+        $("#passTable5").hide();
+    });
 
+    $(document).on('click', '#passButton2', function() {
+        $("#passTable1").hide();
+        $("#passTable2").show();
+        $("#passTable3").hide();
+        $("#passTable4").hide();
+        $("#passTable5").hide();
+    });
+
+    $(document).on('click', '#passButton3', function() {
+        $("#passTable1").hide();
+        $("#passTable2").hide();
+        $("#passTable3").show();
+        $("#passTable4").hide();
+        $("#passTable5").hide();
+    });
+
+    $(document).on('click', '#passButton4', function() {
+        $("#passTable1").hide();
+        $("#passTable2").hide();
+        $("#passTable3").hide();
+        $("#passTable4").show();
+        $("#passTable5").hide();
+    });
+
+    $(document).on('click', '#passButton5', function() {
+        $("#passTable1").hide();
+        $("#passTable2").hide();
+        $("#passTable3").hide();
+        $("#passTable4").hide();
+        $("#passTable5").show();
+    });
 
 });
+

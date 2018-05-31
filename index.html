@@ -149,73 +149,118 @@
             <div class="text-dark">
                 <div id="whatsUp">
                     <div class = "satTypeDisplay">
-                        <!--bootstrap table with 5 columns-->
-                        <table class="table table-bordered table-hover" id="aboveTable">
-                        <thead id="aboveTableHeader">
-                            <tr>
-                                <th scope="col">Satellite Name</th>
-                                <th scope="col">Satellite Id</th>
-                                <th scope="col">Altitude</th>
-                                <th scope="col">Launch Date</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from API query-->
-                        <tbody id="aboveTableBody">                    
-                        </tbody>
-                        </table>  
-                        <!--button to choose a different satellite type-->
-                        <button id="chooseDifferentSatTypeBtn1" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                        <!--bootstrap responsive table with 4 columns-->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="aboveTable">
+                            <thead id="aboveTableHeader">
+                                <tr>
+                                    <th scope="col">Satellite Name</th>
+                                    <th scope="col">Satellite Id</th>
+                                    <th scope="col">Altitude</th>
+                                    <th scope="col">Launch Date</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from API query-->
+                            <tbody id="aboveTableBody">                    
+                            </tbody>
+                            </table> 
+                        </div> 
+                        <!--div to hold button-->
+                        <div class="whatsUpBtnHldr">
+                            <!--button to choose a different satellite type-->
+                            <button id="chooseDifferentSatTypeBtn1" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                        </div>  
                     </div>
                 </div>        
+                
                 <div id="satelliteInfo">
-                    <table class="table table-bordered table-hover" id="passTableStart">
-                        <thead id="passTableStartHeader">
-                            <tr>
-                                <th scope="col">Pass</th>
-                                <th scope="col">Start Date</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">Initial Direction</th>
-                                <th scope="col">Initial Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTableStartBody"></tbody>
-                    </table>  
-
+                    <div id="passButtonHolder"></div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable1">
+                            <thead id="passTable1Header">
+                                <tr>
+                                    <th scope="col">Pass 1</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable1Body"></tbody>
+                        </table>  
+                    </div>
                     
-                    <table class="table table-bordered table-hover" id="passMaxTable">
-                        <thead id="passMaxTableHeader">
-                            <tr>
-                                <th scope="col">Pass</th>
-                                <th scope="col">Maximum El. Date</th>
-                                <th scope="col">Maximum El. Time</th>
-                                <th scope="col">Maximum Direction</th>
-                                <th scope="col">Maximum Elevation</th>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable2">
+                            <thead id="passTable2Header">
+                                <tr>
+                                    <th scope="col">Pass 2</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
                                 </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from firebase-->
-                        <tbody id="passMaxTableBody"></tbody>
-                    </table>  
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable2Body"></tbody>
+                        </table>  
+                    </div>  
 
-                    <table class="table table-bordered table-hover" id="passEndTable">
-                        <thead id="passEndTableHeader">
-                            <tr>
-                                <th scope="col">Pass</th>
-                                <th scope="col">End Date</th>
-                                <th scope="col">End Time</th>
-                                <th scope="col">End Direction</th>
-                                <th scope="col">End Elevation</th>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable3">
+                            <thead id="passTable3Header">
+                                <tr>
+                                    <th scope="col">Pass 3</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
                                 </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from firebase-->
-                        <tbody id="passEndTableBody"></tbody>
-                    </table>  
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable3Body"></tbody>
+                        </table>  
+                    </div>
 
-                    <div class = "satInfoBtnHldr"></div>
-                    <!--button to choose a different satellite-->
-                    <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded" >Choose a New Satellite</button>
-                    <!--another button to choose a different satellite type-->
-                    <button id="chooseDifferentSatTypeBtn2" type="button" class="btn btn-danger rounded" >Change Satellite Type</button>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable4">
+                            <thead id="passTable4Header">
+                                <tr>
+                                    <th scope="col">Pass 4</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable4Body"></tbody>
+                        </table>  
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable5">
+                            <thead id="passTable5Header">
+                                <tr>
+                                    <th scope="col">Pass 5</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable5Body"></tbody>
+                        </table>  
+                    </div>
+
+                    <div class = "satInfoBtnHldr">
+                        <!--button to choose a different satellite-->
+                        <button id="chooseDifferentSatBtn" type="button" class="btn btn-danger rounded jamie" >Choose a New Satellite</button>
+                        <!--another button to choose a different satellite type-->
+                        <button id="chooseDifferentSatTypeBtn2" type="button" class="btn btn-danger rounded jamie" >Change Satellite Type</button>
+                    </div>
                 </div>
             </div>  
         </div>
@@ -255,7 +300,10 @@
     </div>
 </div>
 
-<p class="text-center">This App Was Created by Kevin Clayton, Jamie Reaves, Stacey Rong, and Alex Bruner</p>
+<div class="footer text-white">
+    <p class="mb-0">This App Was Created by Kevin Clayton, Jamie Reaves, Stacey Rong, and Alex Bruner</p>
+    <p class="mb-0">Copyright © 2018</p>
+</div>
 
     <script src="assets/javascript/mainFunctions.js"></script>
     <script src="assets/javascript/pagedisplay.js"></script>

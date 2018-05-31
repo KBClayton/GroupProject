@@ -1,14 +1,24 @@
 html {
     height:100%;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
 }
 
 body{
+    position: relative;
+    padding-bottom: 6rem;
     background-image: url("../../assets/images/SatelliteEarth.jpg");
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     background-size:cover;
     color: white;
     min-height: 100%;
 }
+
 .font-shadowLight{font-family: 'Shadows Into Light', cursive;}
 .max500{max-width: 700px auto;}
 .opaque{opacity:.5;}
@@ -65,11 +75,61 @@ a {
 }
 
 .footer {
+    background-color: black;
     position: absolute;
-    bottom:0px;
+    padding: 1rem;
+    margin-bottom: 0;
+    width: 100%;
+    bottom:0;
     font-size: 12px;
+    text-align: center;
 }
 
 #aboveTable {
     max-width: 100%; overflow: scroll;
+}
+
+.satInfoBtnHldr{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.whatsUpBtnHldr{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+#passButtonHolder{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.btn-primary{
+    margin:5px auto;
+}
+
+.btn-danger{
+    margin:5px auto;
+}
+
+@media only screen and (max-width:500px) {
+    .satInfoBtnHldr{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #passButtonHolder{
+        display: inherit;
+    } 
+
+    .btn-primary{
+        margin:5px 10px;
+    }
 }
