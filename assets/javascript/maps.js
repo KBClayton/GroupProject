@@ -28,7 +28,7 @@
     var elevator; //set to google maps function
     //End Clayton's variables
 
-    //wait function
+    //Start wait function
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -167,7 +167,7 @@
                     loop_iterations+=10;   
                 }
             }
-            loop_iterations+=10;
+            loop_iterations+=30;
             var roll_LineCoord=[];
             for(var i=0; i<loop_iterations; i++){
                 setbackutc=passArray[0].startUTC-setback_time;

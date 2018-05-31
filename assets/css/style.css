@@ -5,6 +5,7 @@ html {
 body{
     background-image: url("../../assets/images/SatelliteEarth.jpg");
     background-repeat: no-repeat;
+    background-size:cover;
     color: white;
     min-height: 100%;
 }
