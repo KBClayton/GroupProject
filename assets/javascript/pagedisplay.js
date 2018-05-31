@@ -1,20 +1,30 @@
 $(".dropDown").hide();
 $("#latSearch").hide();
 $("#longSearch").hide();
+$("div#satBtn").addClass("border-bottom-0");
 //Maps Button Show
 $("#mapsBtn").click(function(){
+    $("div#mapsBtn").addClass("border-bottom-0");
+    $("div#weathBtn").removeClass("border-bottom-0");
+    $("div#satBtn").removeClass("border-bottom-0");
     $("#mapsDisplay").show();
     $("#satelliteDisplay").hide();
     $(".weatherCard").hide();
 });
 //Satellite Button Show
 $("#satBtn").click(function(){
+    $("div#satBtn").addClass("border-bottom-0");
+    $("div#weathBtn").removeClass("border-bottom-0");
+    $("div#mapsBtn").removeClass("border-bottom-0");
     $("#mapsDisplay").hide();
     $("#satelliteDisplay").show();
     $(".weatherCard").hide();
 });
 //Weather Button Show
 $("#weathBtn").click(function(){
+    $("div#weathBtn").addClass("border-bottom-0");
+    $("div#satBtn").removeClass("border-bottom-0");
+    $("div#mapsBtn").removeClass("border-bottom-0");
     $("#mapsDisplay").hide();
     $("#satelliteDisplay").hide();
     $(".weatherCard").show();

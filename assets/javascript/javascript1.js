@@ -62,12 +62,12 @@ $(document).ready(function(){
                 console.log("search worked")
                 if (response.results[0] == undefined){
                     // run error message
-                    $(".errorClass").text('"' + userSearch + '" is not a valid location');
+                    $(".errorClass").text('* " ' + userSearch + '" is not a valid location *');
                 }
                 //if location is an actual location
                 else{
 
-
+                    $(".errorClass").empty();
                     //Run WikiSearch Display
                     wikiSubmit();
                     //set Like Button attr userSearch
@@ -113,9 +113,10 @@ $(document).ready(function(){
                         aboveArray = [];
                     
                         if (response.info.satcount == 0) {
-                            $(".errorClass").text("There are no available Satellites in your Area");
+                            $(".errorClass").text("* There are no available Satellites in your Area *");
                         }
                         else {
+                            $(".errorClass").empty();
                             //initial display function
                             postSearchDisplay();
                             //$(".satTypeArea").css("display", "none");
@@ -224,15 +225,18 @@ $(document).ready(function(){
         }
         //If user selects a satellite Type but no location
         else if (userSearch != "" && satTypeSelect == ""){
-            $(".errorClass").text("Please Select A Satellite Type");
+            $(".errorClass").empty();
+            $(".errorClass").text("* Please Select A Satellite Type *");
         }
         //If user selects a location but no satellite type
         else if (userSearch == "" && satTypeSelect != ""){
-            $(".errorClass").text("Please Enter A Location");
+            $(".errorClass").empty();
+            $(".errorClass").text("* Please Enter A Location *");
         }
         //If user doesn't enter a location or satellite type
         else{
-            $(".errorClass").text("Please Enter Location and Select a Satellite Type");
+            $(".errorClass").empty();
+            $(".errorClass").text("* Please Enter Location and Select a Satellite Type *");
         }
     };
 
@@ -388,9 +392,10 @@ $(document).ready(function(){
             
             //If no satellites are available in the next 10 days display error message
             if (response.info.passescount == 0) {
-                $(".errorClass").text("There will be no visually observable passes for this satellite in the next 10 days at your location. Please select another satellite.");
+                $(".errorClass").text("* There will be no visually observable passes for this satellite in the next 10 days at your location. Please select another satellite. *");
             }
-            else { 
+            else {
+                $(".errorClass").empty();
                 //hide table and display satellite info div
                 $("#whatsUp").css("display", "none");
                 $("#satelliteInfo").css("display", "inherit");
