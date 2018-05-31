@@ -149,20 +149,22 @@
             <div class="text-dark">
                 <div id="whatsUp">
                     <div class = "satTypeDisplay">
-                        <!--bootstrap table with 5 columns-->
-                        <table class="table table-bordered table-hover" id="aboveTable">
-                        <thead id="aboveTableHeader">
-                            <tr>
-                                <th scope="col">Satellite Name</th>
-                                <th scope="col">Satellite Id</th>
-                                <th scope="col">Altitude</th>
-                                <th scope="col">Launch Date</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from API query-->
-                        <tbody id="aboveTableBody">                    
-                        </tbody>
-                        </table>  
+                        <!--bootstrap responsive table with 4 columns-->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="aboveTable">
+                            <thead id="aboveTableHeader">
+                                <tr>
+                                    <th scope="col">Satellite Name</th>
+                                    <th scope="col">Satellite Id</th>
+                                    <th scope="col">Altitude</th>
+                                    <th scope="col">Launch Date</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from API query-->
+                            <tbody id="aboveTableBody">                    
+                            </tbody>
+                            </table> 
+                        </div> 
                         <!--div to hold button-->
                         <div class="whatsUpBtnHldr">
                             <!--button to choose a different satellite type-->
@@ -173,76 +175,85 @@
                 
                 <div id="satelliteInfo">
                     <div id="passButtonHolder"></div>
-                    <table class="table table-bordered table-hover" id="passTable1">
-                        <thead id="passTable1Header">
-                            <tr>
-                                <th scope="col">Pass 1</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTable1Body"></tbody>
-                    </table>  
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable1">
+                            <thead id="passTable1Header">
+                                <tr>
+                                    <th scope="col">Pass 1</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable1Body"></tbody>
+                        </table>  
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable2">
+                            <thead id="passTable2Header">
+                                <tr>
+                                    <th scope="col">Pass 2</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable2Body"></tbody>
+                        </table>  
+                    </div>  
 
-                    <table class="table table-bordered table-hover" id="passTable2">
-                        <thead id="passTable2Header">
-                            <tr>
-                                <th scope="col">Pass 2</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTable2Body"></tbody>
-                    </table>  
-                      
-                    <table class="table table-bordered table-hover" id="passTable3">
-                        <thead id="passTable3Header">
-                            <tr>
-                                <th scope="col">Pass 3</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTable3Body"></tbody>
-                    </table>  
-    
-                    <table class="table table-bordered table-hover" id="passTable4">
-                        <thead id="passTable4Header">
-                            <tr>
-                                <th scope="col">Pass 4</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTable4Body"></tbody>
-                    </table>  
-    
-                    <table class="table table-bordered table-hover" id="passTable5">
-                        <thead id="passTable5Header">
-                            <tr>
-                                <th scope="col">Pass 5</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Direction</th>
-                                <th scope="col">Elevation</th>
-                            </tr>
-                        </thead>
-                        <!--table body, will hold data retrieved from api-->
-                        <tbody id="passTable5Body"></tbody>
-                    </table>  
-    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable3">
+                            <thead id="passTable3Header">
+                                <tr>
+                                    <th scope="col">Pass 3</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable3Body"></tbody>
+                        </table>  
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable4">
+                            <thead id="passTable4Header">
+                                <tr>
+                                    <th scope="col">Pass 4</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable4Body"></tbody>
+                        </table>  
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="passTable5">
+                            <thead id="passTable5Header">
+                                <tr>
+                                    <th scope="col">Pass 5</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Elevation</th>
+                                </tr>
+                            </thead>
+                            <!--table body, will hold data retrieved from api-->
+                            <tbody id="passTable5Body"></tbody>
+                        </table>  
+                    </div>
 
                     <div class = "satInfoBtnHldr">
                         <!--button to choose a different satellite-->
